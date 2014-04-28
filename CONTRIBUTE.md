@@ -1,10 +1,26 @@
 ## Team members
 
 * WindyCityRockr
+* SebRut
 
-## Learn & listen
+## Learn & Listen
 
 This section includes ways to get started with your open source project. Include links to documentation and to different communication channels: 
+
+## Request a device
+
+* Go to [Issues](https://github.com/WindyCityRockr/WinDroid_Universal_HTC_Toolkit/issues?labels=device+request&page=1&state=open)
+* Check if your device has already been requested.
+* If it has not already been requested, start a new issue using the following template: 
+```
+Device Code Name:
+Numbers of Variants:
+References:
+```
+* (References refers to any threads, links, sites, etc. you think would help us in supporting your requested phone.)
+* Submit your issue.
+
+##References
 
 * [XDA-Developers thread](http://forum.xda-developers.com/showthread.php?t=2499926)
 
