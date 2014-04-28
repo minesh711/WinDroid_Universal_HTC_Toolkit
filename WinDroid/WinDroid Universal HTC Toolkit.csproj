@@ -124,7 +124,7 @@
     <Content Include="WinDroid.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Depencies\AndroidLib\AndroidLib\AndroidLib.csproj">
+    <ProjectReference Include="..\Dependencies\AndroidLib\AndroidLib\AndroidLib.csproj">
       <Project>{f5f92f16-c783-4b17-b725-b06f1d725b9c}</Project>
       <Name>AndroidLib</Name>
     </ProjectReference>

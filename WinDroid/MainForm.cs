@@ -2511,13 +2511,19 @@ namespace WinDroid
                 file.Close();
             }
         }
-
+private static string GetStringBetween(string source, string start, string end)
+        {
+            int startIndex = source.IndexOf(start, StringComparison.Ordinal) + start.Length;
+            int endIndex = source.IndexOf(end, startIndex, StringComparison.Ordinal);
+            int length = endIndex - startIndex;
+            return source.Substring(startIndex, length);
+        }
         private void tokenID_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
                 loadingSpinner.Visible = true;
-                using (StreamWriter sw = File.CreateText("./Data/token.txt"))
+                /*using (StreamWriter sw = File.CreateText("./Data/token.txt"))
                 {
                     sw.WriteLine(
                         Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,
@@ -2537,9 +2543,15 @@ namespace WinDroid
                     sw.WriteLine(
                         "ONCE YOU HAVE RECEIVED THE UNLOCK FILE IN YOUR EMAIL, YOU CAN CONTINUE ON TO THE NEXT STEP!");
                     sw.WriteLine("THIS FILE IS SAVED AS token.txt WITHIN THE DATA FOLDER IF NEEDED FOR FUTURE USE!");
-                }
+                }*/
+                string rawReturn = Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,
+                    AndroidLib.SecondaryCmd));
+                string rawToken = GetStringBetween(rawReturn, "<<<< Indentifier Token Start >>>>",
+                    "<<<< Indentifier Token End >>>>");
+                string cleanedToken = rawToken.Replace("(bootloader) ", "");
+                Clipboard.SetText(cleanedToken);
                 Process.Start("http://www.htcdev.com/bootloader/unlock-instructions/page-3");
-                Process.Start(Application.StartupPath + "/Data/token.txt");
+                //Process.Start(Application.StartupPath + "/Data/token.txt");
                 _android.Dispose();
                 loadingSpinner.Visible = false;
                 getTokenIDButton.Enabled = true;
