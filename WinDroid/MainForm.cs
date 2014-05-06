@@ -1,4 +1,7 @@
-﻿using MetroFramework.Forms;
+﻿using System.Collections.Generic;
+using System.Threading;
+using AndroidDeviceConfig;
+using MetroFramework.Forms;
 using Microsoft.VisualBasic;
 using RegawMOD.Android;
 using System;
@@ -7,7 +10,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using WinDroid;
 
 namespace WinDroid
 {
@@ -15,6 +17,7 @@ namespace WinDroid
     {
         private AndroidController _android;
         private Device _device;
+        private List<DeviceConfig> devices = new List<DeviceConfig>();
 
         public MainForm()
         {
@@ -356,7 +359,7 @@ namespace WinDroid
 
         private void CheckFileSystem()
         {
-            string[] neededDirectories = new string[] { "Data/", "Data/Backups", "Data/Installers", "Data/Logcats", "Data/Logs", "Data/Recoveries" };
+            string[] neededDirectories = new string[] { "Data/", "Data/Backups", "Data/Installers", "Data/Logcats", "Data/Logs", "Data/Recoveries", "Data/Devices" };
 
             foreach (string dir in neededDirectories)
             {
@@ -1289,7 +1292,7 @@ namespace WinDroid
             }
 
             CheckFileSystem();
-
+            LoadDeviceConfigs();
             try
             {
                 switch (Properties.Settings.Default.SelectedDevice)
@@ -1460,6 +1463,15 @@ namespace WinDroid
                 file.WriteLine(ex);
                 file.Close();
             }
+        }
+
+        private void LoadDeviceConfigs()
+        {
+            foreach (string file in Directory.GetFiles("Data/Devices"))
+            {
+                devices.Add(DeviceConfig.LoadConfig(file));
+            }
+            
         }
 
         private void noReturnADBCommand_DoWork(object sender, DoWorkEventArgs e)
@@ -2513,8 +2525,8 @@ namespace WinDroid
         }
 private static string GetStringBetween(string source, string start, string end)
         {
-            int startIndex = source.IndexOf(start, StringComparison.Ordinal) + start.Length;
-            int endIndex = source.IndexOf(end, startIndex, StringComparison.Ordinal);
+            int startIndex = source.IndexOf(start, StringComparison.InvariantCulture) + start.Length;
+            int endIndex = source.IndexOf(end, startIndex, StringComparison.InvariantCulture);
             int length = endIndex - startIndex;
             return source.Substring(startIndex, length);
         }
@@ -2522,7 +2534,7 @@ private static string GetStringBetween(string source, string start, string end)
         {
             try
             {
-                loadingSpinner.Visible = true;
+                //loadingSpinner.Visible = true;
                 /*using (StreamWriter sw = File.CreateText("./Data/token.txt"))
                 {
                     sw.WriteLine(
@@ -2544,11 +2556,35 @@ private static string GetStringBetween(string source, string start, string end)
                         "ONCE YOU HAVE RECEIVED THE UNLOCK FILE IN YOUR EMAIL, YOU CAN CONTINUE ON TO THE NEXT STEP!");
                     sw.WriteLine("THIS FILE IS SAVED AS token.txt WITHIN THE DATA FOLDER IF NEEDED FOR FUTURE USE!");
                 }*/
-                string rawReturn = Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,
-                    AndroidLib.SecondaryCmd));
-                string rawToken = GetStringBetween(rawReturn, "<<<< Indentifier Token Start >>>>",
-                    "<<<< Indentifier Token End >>>>");
+                //string rawReturn = Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,AndroidLib.SecondaryCmd));
+                string rawReturn = @"< waiting for device >
+...
+(bootloader)    
+(bootloader) < Please cut following message >
+(bootloader) <<<< Identifier Token Start >>>>
+(bootloader) 28AF9D2C4448A3232DF660799C270A16
+(bootloader) DCADA9EF0C21AAA6C4D5770508F32D64
+(bootloader) 7AFEC9BC54E2DE328E7B784677A8231D
+(bootloader) 2C69243812F5AAC8D057A9E983B51B52
+(bootloader) CD3CEF94C192EDF7BC90BFE04FDE0B16
+(bootloader) AF48B4BBC1D1EB346AD847745C49075F
+(bootloader) 51CE55779B7F7A711F8449AA2B2A01D5
+(bootloader) 9B7ABB35109E8F71189F138AC43BDF93
+(bootloader) 2D0B2D8BE6D9F47C038EB7E4FFCA9FC3
+(bootloader) 93A1BB8507D9359596949C19D323216E
+(bootloader) 3E1031E7D2FF562261DF69157E9B8EC2
+(bootloader) 27BC1BCE546E6CB1066183A5D3736DBD
+(bootloader) 7E4154309046234F892535AABE771800
+(bootloader) 88DE9E97AFF487C0D5A120B3C9BFB271
+(bootloader) 9C13C4EC963D0CE55D95F758AB831556
+(bootloader) 4F85720A28970C91DEC3A857E90A45E7
+(bootloader) <<<<< Identifier Token End >>>>>
+OKAY [  0.209s]
+finished. total time: 0.209s";
+                string rawToken = GetStringBetween(rawReturn, "< Please cut following message >\r\n",
+                    "\r\nOKAY");
                 string cleanedToken = rawToken.Replace("(bootloader) ", "");
+                Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
                 Clipboard.SetText(cleanedToken);
                 Process.Start("http://www.htcdev.com/bootloader/unlock-instructions/page-3");
                 //Process.Start(Application.StartupPath + "/Data/token.txt");
