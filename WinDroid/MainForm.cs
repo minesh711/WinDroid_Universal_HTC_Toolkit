@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using AndroidDeviceConfig;
-using MetroFramework.Forms;
-using Microsoft.VisualBasic;
-using RegawMOD.Android;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
+using AndroidDeviceConfig;
+using MetroFramework.Forms;
+using Microsoft.VisualBasic;
+using RegawMOD.Android;
+using WinDroid.Properties;
 
 namespace WinDroid
 {
     public partial class MainForm : MetroForm
     {
+        private readonly List<DeviceConfig> devices = new List<DeviceConfig>();
         private AndroidController _android;
         private Device _device;
-        private List<DeviceConfig> devices = new List<DeviceConfig>();
 
         public MainForm()
         {
@@ -135,201 +136,201 @@ namespace WinDroid
                 switch (changePhoneComboBox.Text)
                 {
                     case "Amaze":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "Amaze";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "HTC Amaze";
-                            secondTWRPButton.Enabled = false;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "Option Two";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "Amaze";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "HTC Amaze";
+                        secondTWRPButton.Enabled = false;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "Option Two";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "Desire HD":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "Desire HD";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "HTC Desire HD";
-                            secondTWRPButton.Enabled = false;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "Option Two";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "Desire HD";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "HTC Desire HD";
+                        secondTWRPButton.Enabled = false;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "Option Two";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "Desire X":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "Desire X";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "Hboot 1.25 (JB)";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "Hboot 1.24 (ICS)";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "Desire X";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "Hboot 1.25 (JB)";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "Hboot 1.24 (ICS)";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "Droid DNA":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "Droid DNA";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = true;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "HTC Droid DNA";
-                            secondTWRPButton.Enabled = false;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "Option Two";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "Droid DNA";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = true;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "HTC Droid DNA";
+                        secondTWRPButton.Enabled = false;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "Option Two";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "EVO 4G LTE":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "EVO 4G LTE";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "EVO 4G LTE";
-                            secondTWRPButton.Enabled = false;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "Option Two";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "EVO 4G LTE";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "EVO 4G LTE";
+                        secondTWRPButton.Enabled = false;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "Option Two";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One (M7)":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One (M7)";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "GSM One (M7)";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "Verizon";
-                            secondRecoveriesGroupBox.Text = "CDMA One (M7)";
-                            thirdTWRPButton.Enabled = true;
-                            thirdTWRPButton.Text = "Sprint";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One (M7)";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "GSM One (M7)";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "Verizon";
+                        secondRecoveriesGroupBox.Text = "CDMA One (M7)";
+                        thirdTWRPButton.Enabled = true;
+                        thirdTWRPButton.Text = "Sprint";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One (M8)":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One (M8)";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "GSM One (M8)";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "Verizon";
-                            secondRecoveriesGroupBox.Text = "CDMA One (M8)";
-                            thirdTWRPButton.Enabled = true;
-                            thirdTWRPButton.Text = "Sprint";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One (M8)";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "GSM One (M8)";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "Verizon";
+                        secondRecoveriesGroupBox.Text = "CDMA One (M8)";
+                        thirdTWRPButton.Enabled = true;
+                        thirdTWRPButton.Text = "Sprint";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One S":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One S";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "One S (S4)";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "One S (S3_C2)";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One S";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "One S (S4)";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "One S (S3_C2)";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One V":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One V";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "PrimoU (GSM)";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "PrimoC (CDMA)";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One V";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "PrimoU (GSM)";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "PrimoC (CDMA)";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One X":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One X";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = true;
-                            gainSuperCIDButton.Text = "AT&&T One X ONLY";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "HTC One X";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "AT&&T One X";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One X";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = true;
+                        gainSuperCIDButton.Text = "AT&&T One X ONLY";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "HTC One X";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "AT&&T One X";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "One X+":
-                        {
-                            var phoneDownload = new PhoneDownload();
-                            PhoneDownload.AndroidLib.Selector = "One X+";
-                            phoneDownload.Show();
-                            gainSuperCIDButton.Enabled = false;
-                            gainSuperCIDButton.Text = "Gain SuperCID";
-                            firstTWRPButton.Enabled = true;
-                            firstRecoveriesGroupBox.Text = "International X+";
-                            secondTWRPButton.Enabled = true;
-                            secondTWRPButton.Text = "TWRP";
-                            secondRecoveriesGroupBox.Text = "AT&&T One X+";
-                            thirdTWRPButton.Enabled = false;
-                            thirdTWRPButton.Text = "CWM";
-                            mainTabControl.SelectedIndex = 0;
-                        }
+                    {
+                        var phoneDownload = new PhoneDownload();
+                        PhoneDownload.AndroidLib.Selector = "One X+";
+                        phoneDownload.Show();
+                        gainSuperCIDButton.Enabled = false;
+                        gainSuperCIDButton.Text = "Gain SuperCID";
+                        firstTWRPButton.Enabled = true;
+                        firstRecoveriesGroupBox.Text = "International X+";
+                        secondTWRPButton.Enabled = true;
+                        secondTWRPButton.Text = "TWRP";
+                        secondRecoveriesGroupBox.Text = "AT&&T One X+";
+                        thirdTWRPButton.Enabled = false;
+                        thirdTWRPButton.Text = "CWM";
+                        mainTabControl.SelectedIndex = 0;
+                    }
                         break;
 
                     case "Other":
@@ -359,7 +360,11 @@ namespace WinDroid
 
         private void CheckFileSystem()
         {
-            string[] neededDirectories = new string[] { "Data/", "Data/Backups", "Data/Installers", "Data/Logcats", "Data/Logs", "Data/Recoveries", "Data/Devices" };
+            string[] neededDirectories =
+            {
+                "Data/", "Data/Backups", "Data/Installers", "Data/Logcats", "Data/Logs",
+                "Data/Recoveries", "Data/Devices"
+            };
 
             foreach (string dir in neededDirectories)
             {
@@ -369,6 +374,7 @@ namespace WinDroid
 
         private void deviceRecognition_DoWork(object sender, DoWorkEventArgs e)
         {
+            
             _android = AndroidController.Instance;
             try
             {
@@ -376,6 +382,41 @@ namespace WinDroid
                 if (_android.HasConnectedDevices)
                 {
                     _device = _android.GetConnectedDevice(_android.ConnectedDevices[0]);
+
+                    DeviceConfig device;
+                    DeviceVersion version;
+
+                    foreach (DeviceConfig deviceConfig in devices)
+                    {
+                        bool found = false;
+                        foreach (DeviceVersion deviceVersion in deviceConfig.Versions)
+                        {
+                            bool matching = true;
+
+                            foreach (DeviceIdentifier deviceIdentifier in deviceVersion.Identifiers)
+                            {
+                                switch (deviceIdentifier.Type)
+                                {
+                                    case IdentifierType.CodeName:
+                                        matching = _device.BuildProp.GetProp("ro.build.product") ==
+                                                   deviceIdentifier.AdditionalArgs[0];
+                                        break;
+                                    case IdentifierType.AndroidVersion:
+                                        matching = _device.BuildProp.GetProp("ro.build.version.release") ==
+                                                   deviceIdentifier.AdditionalArgs[0];
+                                        break;
+                                }
+                            }
+
+                            if (!matching) continue;
+                            device = deviceConfig;
+                            version = deviceVersion;
+                            found = true;
+                            break;
+                        }
+
+                        if (found) break;
+                    }
                     switch (_device.State.ToString())
                     {
                         case "ONLINE":
@@ -1276,6 +1317,9 @@ namespace WinDroid
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            CheckFileSystem();
+            LoadDeviceConfigs();
+
             try
             {
                 deviceRecognition.RunWorkerAsync();
@@ -1291,27 +1335,26 @@ namespace WinDroid
                 file.Close();
             }
 
-            CheckFileSystem();
-            LoadDeviceConfigs();
+            /*
             try
             {
-                switch (Properties.Settings.Default.SelectedDevice)
+                switch (Settings.Default.SelectedDevice)
                 {
                     case "None":
+                    {
+                        DialogResult pickDeviceDialogResult = MessageBox.Show(this,
+                            @"Thanks for choosing the WinDroid Toolkit." + "\n" +
+                            @"A specific phone has not been chosen." + "\n" +
+                            @"Some toolkit features may not function correctly." + "\n" +
+                            @"Would you like to choose one at this time?" + "\n",
+                            @"Welcome To WinDroid!", MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+                        if (pickDeviceDialogResult == DialogResult.Yes)
                         {
-                            DialogResult pickDeviceDialogResult = MessageBox.Show(this,
-                                @"Thanks for choosing the WinDroid Toolkit." + "\n" +
-                                @"A specific phone has not been chosen." + "\n" +
-                                @"Some toolkit features may not function correctly." + "\n" +
-                                @"Would you like to choose one at this time?" + "\n",
-                                @"Welcome To WinDroid!", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Information);
-                            if (pickDeviceDialogResult == DialogResult.Yes)
-                            {
-                                changePhoneComboBox.Text = "Choose";
-                                mainTabControl.SelectedIndex = 3;
-                            }
+                            changePhoneComboBox.Text = "Choose";
+                            mainTabControl.SelectedIndex = 3;
                         }
+                    }
                         break;
 
                     case "Amaze":
@@ -1417,14 +1460,15 @@ namespace WinDroid
                 var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
                 file.WriteLine(ex);
                 file.Close();
-            }
+            }*/
 
+            /*
             try
             {
                 if (!Directory.Exists("C:/Program Files (x86)/ClockworkMod/Universal Adb Driver") &&
                     !Directory.Exists("C:/Program Files/ClockworkMod/Universal Adb Driver"))
                 {
-                    if (!Properties.Settings.Default.AdbDriverReminderEnabled) return;
+                    if (!Settings.Default.AdbDriverReminderEnabled) return;
                     DialogResult installDriversDialogResult =
                         MessageBox.Show(this,
                             @"You are missing some ADB Drivers!" + "\n" +
@@ -1445,9 +1489,9 @@ namespace WinDroid
                                     @"Just double checking.", MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Question);
 
-                            Properties.Settings.Default.AdbDriverReminderEnabled = adbreminderEnabledDialogResult ==
-                                                                                   DialogResult.Yes;
-                            Properties.Settings.Default.Save();
+                            Settings.Default.AdbDriverReminderEnabled = adbreminderEnabledDialogResult ==
+                                                                        DialogResult.Yes;
+                            Settings.Default.Save();
 
                             break;
                     }
@@ -1462,7 +1506,7 @@ namespace WinDroid
                 var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
                 file.WriteLine(ex);
                 file.Close();
-            }
+            }*/
         }
 
         private void LoadDeviceConfigs()
@@ -1471,7 +1515,6 @@ namespace WinDroid
             {
                 devices.Add(DeviceConfig.LoadConfig(file));
             }
-            
         }
 
         private void noReturnADBCommand_DoWork(object sender, DoWorkEventArgs e)
@@ -2523,71 +2566,32 @@ namespace WinDroid
                 file.Close();
             }
         }
-private static string GetStringBetween(string source, string start, string end)
+
+        private static string GetStringBetween(string source, string start, string end)
         {
             int startIndex = source.IndexOf(start, StringComparison.InvariantCulture) + start.Length;
             int endIndex = source.IndexOf(end, startIndex, StringComparison.InvariantCulture);
             int length = endIndex - startIndex;
             return source.Substring(startIndex, length);
         }
+
         private void tokenID_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
-                //loadingSpinner.Visible = true;
-                /*using (StreamWriter sw = File.CreateText("./Data/token.txt"))
-                {
-                    sw.WriteLine(
-                        Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,
-                            AndroidLib.SecondaryCmd)));
-                    sw.WriteLine(" ");
-                    sw.WriteLine(
-                        "PLEASE COPY EVERYTHING FROM <<<< Indentifier Token Start >>>> TO <<<< Indentifier Token End >>>>!");
-                    sw.WriteLine("PLEASE ENSURE THAT YOU DELETE ALL (bootloader)'s AS WELL!");
-                    sw.WriteLine(" ");
-                    sw.WriteLine("NEXT, SIGN IN TO YOUR HTC DEV ACCOUNT ON THE WEBPAGE THAT JUST OPENED!");
-                    sw.WriteLine(
-                        "IF YOU DO NOT HAVE ONE, CREATE AND ACTIVATE AN ACCOUNT WITH A VALID EMAIL ADDRESS THEN COME BACK TO THAT LINK!");
-                    sw.WriteLine(
-                        "THEN, PASTE THE TOKEN ID YOU JUST COPIED AT THE BOTTOM OF THE HTCDEV WEBPAGE THAT JUST OPENED!");
-                    sw.WriteLine("HIT SUBMIT, AND WAIT FOR THE EMAIL WITH THE UNLOCK BINARY FILE!");
-                    sw.WriteLine(" ");
-                    sw.WriteLine(
-                        "ONCE YOU HAVE RECEIVED THE UNLOCK FILE IN YOUR EMAIL, YOU CAN CONTINUE ON TO THE NEXT STEP!");
-                    sw.WriteLine("THIS FILE IS SAVED AS token.txt WITHIN THE DATA FOLDER IF NEEDED FOR FUTURE USE!");
-                }*/
-                //string rawReturn = Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,AndroidLib.SecondaryCmd));
-                string rawReturn = @"< waiting for device >
-...
-(bootloader)    
-(bootloader) < Please cut following message >
-(bootloader) <<<< Identifier Token Start >>>>
-(bootloader) 28AF9D2C4448A3232DF660799C270A16
-(bootloader) DCADA9EF0C21AAA6C4D5770508F32D64
-(bootloader) 7AFEC9BC54E2DE328E7B784677A8231D
-(bootloader) 2C69243812F5AAC8D057A9E983B51B52
-(bootloader) CD3CEF94C192EDF7BC90BFE04FDE0B16
-(bootloader) AF48B4BBC1D1EB346AD847745C49075F
-(bootloader) 51CE55779B7F7A711F8449AA2B2A01D5
-(bootloader) 9B7ABB35109E8F71189F138AC43BDF93
-(bootloader) 2D0B2D8BE6D9F47C038EB7E4FFCA9FC3
-(bootloader) 93A1BB8507D9359596949C19D323216E
-(bootloader) 3E1031E7D2FF562261DF69157E9B8EC2
-(bootloader) 27BC1BCE546E6CB1066183A5D3736DBD
-(bootloader) 7E4154309046234F892535AABE771800
-(bootloader) 88DE9E97AFF487C0D5A120B3C9BFB271
-(bootloader) 9C13C4EC963D0CE55D95F758AB831556
-(bootloader) 4F85720A28970C91DEC3A857E90A45E7
-(bootloader) <<<<< Identifier Token End >>>>>
-OKAY [  0.209s]
-finished. total time: 0.209s";
+                loadingSpinner.Visible = true;
+                string rawReturn =
+                    Fastboot.ExecuteFastbootCommand(Fastboot.FormFastbootCommand(_device, AndroidLib.InitialCmd,
+                        AndroidLib.SecondaryCmd));
+
                 string rawToken = GetStringBetween(rawReturn, "< Please cut following message >\r\n",
                     "\r\nOKAY");
                 string cleanedToken = rawToken.Replace("(bootloader) ", "");
-                Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
-                Clipboard.SetText(cleanedToken);
+
+                SetCliboard(cleanedToken);
+                MessageBox.Show(
+                    "The unlock token has been copied to your clipboard. Follow the steps on the website that opens now. Continue with the next step when you recieved your unlock file.");
                 Process.Start("http://www.htcdev.com/bootloader/unlock-instructions/page-3");
-                //Process.Start(Application.StartupPath + "/Data/token.txt");
                 _android.Dispose();
                 loadingSpinner.Visible = false;
                 getTokenIDButton.Enabled = true;
@@ -2602,6 +2606,13 @@ finished. total time: 0.209s";
                 file.WriteLine(ex);
                 file.Close();
             }
+        }
+
+        private void SetCliboard(string text)
+        {
+            var t = new Thread(() => Clipboard.SetText(text));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
         }
 
         private void twitterButton_Click(object sender, EventArgs e)
@@ -2758,6 +2769,6 @@ finished. total time: 0.209s";
             public static string Selector = "";
         }
 
-        #endregion Nested type: AndroidLib
+        #endregion
     }
 }
