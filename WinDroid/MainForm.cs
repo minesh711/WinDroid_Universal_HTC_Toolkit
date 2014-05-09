@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AndroidDeviceConfig;
 using MetroFramework.Forms;
 using Microsoft.VisualBasic;
 using RegawMOD.Android;
+using WinDroid.Properties;
 
 namespace WinDroid
 {
@@ -132,7 +134,7 @@ namespace WinDroid
 
         private void changePhoneComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            try
+            /*try
             {
                 switch (changePhoneComboBox.Text)
                 {
@@ -356,7 +358,7 @@ namespace WinDroid
                 var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
                 file.WriteLine(ex);
                 file.Close();
-            }
+            }*/
         }
 
         private void CheckFileSystem()
@@ -385,9 +387,9 @@ namespace WinDroid
                 {
                     _device = _android.GetConnectedDevice(_android.ConnectedDevices[0]);
 
-                    switch (_device.State.ToString())
+                    switch (_device.State)
                     {
-                        case "ONLINE":
+                        case DeviceState.ONLINE:
                             if (_device.BuildProp.GetProp("ro.product.model") == null)
                             {
                                 device = _device.SerialNumber;
@@ -433,16 +435,16 @@ namespace WinDroid
                             status = "Online";
                             break;
 
-                        case "FASTBOOT":
+                        case DeviceState.FASTBOOT:
                             device = _device.SerialNumber;
                             status = "Fastboot";
                             break;
 
-                        case "RECOVERY":
+                        case DeviceState.RECOVERY:
                             device = _device.SerialNumber;
                             status = "Recovery";
                             break;
-                        case "UNKNOWN":
+                        case DeviceState.UNKNOWN:
                             device = _device.SerialNumber;
                             status = "Unknown";
                             break;
@@ -466,6 +468,17 @@ namespace WinDroid
                     statusProgressSpinner.Visible = false;
                     refreshSpinner.Visible = false;
                     reloadButton.Enabled = true;
+                });
+
+                recoveryList.Invoke((EventHandler) delegate
+                {
+                    recoveryList.Items.Clear();
+
+                    foreach (Recovery recovery in _version.Recoveries)
+                    {
+                        recoveryList.Items.Add(recovery.Name);
+                    }
+                    recoveryList.Update();
                 });
 
 
@@ -554,54 +567,6 @@ namespace WinDroid
             try
             {
                 Process.Start("mailto:windycityrockr@gmail.com");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    @"An error has occured! A log file has been placed in the Logs folder within the Data folder. Please send the file to WindyCityRockr or post the file in the toolkit thread.",
-                    @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                string fileDateTime = DateTime.Now.ToString("MMddyyyy") + "_" + DateTime.Now.ToString("HHmmss");
-                var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
-                file.WriteLine(ex);
-                file.Close();
-            }
-        }
-
-        private void firstTWRPButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (File.Exists("./Data/Recoveries/TWRP1.img"))
-                {
-                    if (statusLabel.Text == @"Status: Fastboot")
-                    {
-                        loadingSpinner.Visible = true;
-                        firstTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "flash";
-                        AndroidLib.SecondaryCmd = "recovery ./Data/Recoveries/TWRP1.img";
-                        AndroidLib.Selector = "firstTWRP";
-                        noReturnFastbootCommand.RunWorkerAsync();
-                    }
-                    else if (statusLabel.Text == @"Status: Online")
-                    {
-                        loadingSpinner.Visible = true;
-                        firstTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "reboot bootloader";
-                        AndroidLib.Selector = "firstTWRP";
-                        noReturnADBCommand.RunWorkerAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show(this,
-                            @"A phone has not been recognized by the toolkit!",
-                            @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(this, @"This recovery appears to be missing from the Data folder!",
-                        @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             catch (Exception ex)
             {
@@ -1306,135 +1271,9 @@ namespace WinDroid
                 file.WriteLine(ex);
                 file.Close();
             }
+            
+            //TODO update UI to show device specific stuff
 
-            /*
-            try
-            {
-                switch (Settings.Default.SelectedDevice)
-                {
-                    case "None":
-                    {
-                        DialogResult pickDeviceDialogResult = MessageBox.Show(this,
-                            @"Thanks for choosing the WinDroid Toolkit." + "\n" +
-                            @"A specific phone has not been chosen." + "\n" +
-                            @"Some toolkit features may not function correctly." + "\n" +
-                            @"Would you like to choose one at this time?" + "\n",
-                            @"Welcome To WinDroid!", MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Information);
-                        if (pickDeviceDialogResult == DialogResult.Yes)
-                        {
-                            changePhoneComboBox.Text = "Choose";
-                            mainTabControl.SelectedIndex = 3;
-                        }
-                    }
-                        break;
-
-                    case "Amaze":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "Amaze";
-                        changePhoneComboBox.Text = "Amaze";
-                        break;
-
-                    case "Desire HD":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "Desire HD";
-                        changePhoneComboBox.Text = "Desire HD";
-                        break;
-
-                    case "Desire X":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "Hboot 1.25 (JB)";
-                        secondTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "Hboot 1.24 (ICS)";
-                        changePhoneComboBox.Text = "Desire X";
-                        break;
-
-                    case "Droid DNA":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "Droid DNA";
-                        gainSuperCIDButton.Enabled = true;
-                        changePhoneComboBox.Text = "Droid DNA";
-                        break;
-
-                    case "EVO 4G LTE":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "EVO 4G LTE";
-                        changePhoneComboBox.Text = "EVO 4G LTE";
-                        break;
-
-                    case "One (M7)":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "GSM One (M7)";
-                        secondTWRPButton.Enabled = true;
-                        thirdTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "CDMA One (M7)";
-                        secondTWRPButton.Text = "Verizon";
-                        thirdTWRPButton.Text = "Sprint";
-                        changePhoneComboBox.Text = "One (M7)";
-                        break;
-
-                    case "One (M8)":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "GSM One (M8)";
-                        secondTWRPButton.Enabled = true;
-                        thirdTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "CDMA One (M8)";
-                        secondTWRPButton.Text = "Verizon";
-                        thirdTWRPButton.Text = "Sprint";
-                        changePhoneComboBox.Text = "One (M8)";
-                        break;
-
-                    case "One S":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "One S (S4)";
-                        secondTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "One S (S3_C2) ";
-                        changePhoneComboBox.Text = "Desire X";
-                        break;
-
-                    case "One V":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "PrimoU (GSM)";
-                        secondTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "PrimoC (CDMA)";
-                        changePhoneComboBox.Text = "One V";
-                        break;
-
-                    case "One X":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "HTC One X";
-                        secondTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "AT&&T One X";
-                        gainSuperCIDButton.Enabled = true;
-                        gainSuperCIDButton.Text = "AT&&T One X ONLY";
-                        changePhoneComboBox.Text = "One X";
-                        break;
-
-                    case "One X+":
-                        firstTWRPButton.Enabled = true;
-                        firstRecoveriesGroupBox.Text = "International X+";
-                        secondTWRPButton.Enabled = true;
-                        secondRecoveriesGroupBox.Text = "AT&&T One X+";
-                        changePhoneComboBox.Text = "One X+";
-                        break;
-
-                    case "Other":
-                        changePhoneComboBox.Text = "Other";
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    @"An error has occured! A log file has been placed in the Logs folder within the Data folder. Please send the file to WindyCityRockr or post the file in the toolkit thread.",
-                    @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                string fileDateTime = DateTime.Now.ToString("MMddyyyy") + "_" + DateTime.Now.ToString("HHmmss");
-                var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
-                file.WriteLine(ex);
-                file.Close();
-            }*/
-
-            /*
             try
             {
                 if (!Directory.Exists("C:/Program Files (x86)/ClockworkMod/Universal Adb Driver") &&
@@ -1478,7 +1317,7 @@ namespace WinDroid
                 var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
                 file.WriteLine(ex);
                 file.Close();
-            }*/
+            }
         }
 
         private void LoadDeviceConfigs()
@@ -1644,9 +1483,9 @@ namespace WinDroid
             }
         }
 
-        private void noReturnFastbootCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+       private void noReturnFastbootCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            try
+            /*try
             {
                 if (AndroidLib.Selector == "bootloaderUnlock")
                 {
@@ -1726,7 +1565,7 @@ namespace WinDroid
                 var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
                 file.WriteLine(ex);
                 file.Close();
-            }
+            }*/
         }
 
         private void permanentRecoveryButton_Click(object sender, EventArgs e)
@@ -2233,54 +2072,6 @@ namespace WinDroid
             }
         }
 
-        private void secondTWRPButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (File.Exists("./Data/Recoveries/TWRP2.img"))
-                {
-                    if (statusLabel.Text == @"Status: Fastboot")
-                    {
-                        loadingSpinner.Visible = true;
-                        secondTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "flash";
-                        AndroidLib.SecondaryCmd = "recovery ./Data/Recoveries/TWRP2.img";
-                        AndroidLib.Selector = "secondTWRP";
-                        noReturnFastbootCommand.RunWorkerAsync();
-                    }
-                    else if (statusLabel.Text == @"Status: Online")
-                    {
-                        loadingSpinner.Visible = true;
-                        secondTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "reboot bootloader";
-                        AndroidLib.Selector = "secondTWRP";
-                        noReturnADBCommand.RunWorkerAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show(this,
-                            @"A phone has not been recognized by the toolkit!",
-                            @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(this, @"This recovery appears to be missing from the Data folder!",
-                        @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    @"An error has occured! A log file has been placed in the Logs folder within the Data folder. Please send the file to WindyCityRockr or post the file in the toolkit thread.",
-                    @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                string fileDateTime = DateTime.Now.ToString("MMddyyyy") + "_" + DateTime.Now.ToString("HHmmss");
-                var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
-                file.WriteLine(ex);
-                file.Close();
-            }
-        }
-
         private void sideloadROMButton_Click(object sender, EventArgs e)
         {
             try
@@ -2491,53 +2282,6 @@ namespace WinDroid
             }
         }
 
-        private void thirdTWRPButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (File.Exists("./Data/Recoveries/TWRP3.img"))
-                {
-                    if (statusLabel.Text == @"Status: Fastboot")
-                    {
-                        loadingSpinner.Visible = true;
-                        thirdTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "flash";
-                        AndroidLib.SecondaryCmd = "recovery ./Data/Recoveries/TWRP3.img";
-                        AndroidLib.Selector = "thirdTWRP";
-                        noReturnFastbootCommand.RunWorkerAsync();
-                    }
-                    else if (statusLabel.Text == @"Status: Online")
-                    {
-                        loadingSpinner.Visible = true;
-                        thirdTWRPButton.Enabled = false;
-                        AndroidLib.InitialCmd = "reboot bootloader";
-                        AndroidLib.Selector = "thirdTWRP";
-                        noReturnADBCommand.RunWorkerAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show(this,
-                            @"A phone has not been recognized by the toolkit!",
-                            @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(this, @"This recovery appears to be missing from the Data folder!",
-                        @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    @"An error has occured! A log file has been placed in the Logs folder within the Data folder. Please send the file to WindyCityRockr or post the file in the toolkit thread.",
-                    @"Houston, we have a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                string fileDateTime = DateTime.Now.ToString("MMddyyyy") + "_" + DateTime.Now.ToString("HHmmss");
-                var file = new StreamWriter("./Data/Logs/" + fileDateTime + ".txt");
-                file.WriteLine(ex);
-                file.Close();
-            }
-        }
 
         private static string GetStringBetween(string source, string start, string end)
         {
@@ -2742,5 +2486,26 @@ namespace WinDroid
         }
 
         #endregion
+
+        private void recoveryList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (recoveryList.SelectedItems.Count != 0) flashRecoveryButton.Enabled = true;
+        }
+
+        private void flashRecoveryButton_Click(object sender, EventArgs e)
+        {
+            if (_device.State == DeviceState.FASTBOOT)
+            {
+                string recoveryPath = Path.Combine("./Data/Recoveries",
+                    _version.Recoveries.Where(recovery => recovery.Name == recoveryList.SelectedItems[0].Text)
+                        .Select(recovery => recovery.Name).First());
+
+                loadingSpinner.Visible = true;
+                AndroidLib.InitialCmd = "flash";
+                AndroidLib.SecondaryCmd = "recovery " + recoveryPath;
+                AndroidLib.Selector = "firstTWRP";
+                noReturnFastbootCommand.RunWorkerAsync();
+            }
+        }
     }
 }

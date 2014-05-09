@@ -87,11 +87,6 @@
             this.gainRootGroupBox = new System.Windows.Forms.GroupBox();
             this.flashSuperSUButton = new MetroFramework.Controls.MetroButton();
             this.flashRecoveryGroupBox = new System.Windows.Forms.GroupBox();
-            this.secondRecoveriesGroupBox = new System.Windows.Forms.GroupBox();
-            this.secondTWRPButton = new MetroFramework.Controls.MetroButton();
-            this.thirdTWRPButton = new MetroFramework.Controls.MetroButton();
-            this.firstRecoveriesGroupBox = new System.Windows.Forms.GroupBox();
-            this.firstTWRPButton = new MetroFramework.Controls.MetroButton();
             this.unlockBootloaderGroupBox = new System.Windows.Forms.GroupBox();
             this.gainSuperCIDButton = new MetroFramework.Controls.MetroButton();
             this.unlockBootloaderButton = new MetroFramework.Controls.MetroButton();
@@ -119,6 +114,8 @@
             this.getLogcat = new System.ComponentModel.BackgroundWorker();
             this.getDmesg = new System.ComponentModel.BackgroundWorker();
             this.getFastbootInfo = new System.ComponentModel.BackgroundWorker();
+            this.recoveryList = new System.Windows.Forms.ListView();
+            this.flashRecoveryButton = new MetroFramework.Controls.MetroButton();
             this.aboutTabPage.SuspendLayout();
             this.choosePhoneGroupBox.SuspendLayout();
             this.contactGroupBox.SuspendLayout();
@@ -140,8 +137,6 @@
             this.flashGroupBox.SuspendLayout();
             this.gainRootGroupBox.SuspendLayout();
             this.flashRecoveryGroupBox.SuspendLayout();
-            this.secondRecoveriesGroupBox.SuspendLayout();
-            this.firstRecoveriesGroupBox.SuspendLayout();
             this.unlockBootloaderGroupBox.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
@@ -844,8 +839,8 @@
             // flashRecoveryGroupBox
             // 
             this.flashRecoveryGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.flashRecoveryGroupBox.Controls.Add(this.secondRecoveriesGroupBox);
-            this.flashRecoveryGroupBox.Controls.Add(this.firstRecoveriesGroupBox);
+            this.flashRecoveryGroupBox.Controls.Add(this.flashRecoveryButton);
+            this.flashRecoveryGroupBox.Controls.Add(this.recoveryList);
             this.flashRecoveryGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.flashRecoveryGroupBox.Location = new System.Drawing.Point(127, 5);
             this.flashRecoveryGroupBox.Name = "flashRecoveryGroupBox";
@@ -853,60 +848,6 @@
             this.flashRecoveryGroupBox.TabIndex = 4;
             this.flashRecoveryGroupBox.TabStop = false;
             this.flashRecoveryGroupBox.Text = "2. Flash Recovery";
-            // 
-            // secondRecoveriesGroupBox
-            // 
-            this.secondRecoveriesGroupBox.Controls.Add(this.secondTWRPButton);
-            this.secondRecoveriesGroupBox.Controls.Add(this.thirdTWRPButton);
-            this.secondRecoveriesGroupBox.Location = new System.Drawing.Point(6, 73);
-            this.secondRecoveriesGroupBox.Name = "secondRecoveriesGroupBox";
-            this.secondRecoveriesGroupBox.Size = new System.Drawing.Size(103, 77);
-            this.secondRecoveriesGroupBox.TabIndex = 6;
-            this.secondRecoveriesGroupBox.TabStop = false;
-            this.secondRecoveriesGroupBox.Text = "Other";
-            // 
-            // secondTWRPButton
-            // 
-            this.secondTWRPButton.Enabled = false;
-            this.secondTWRPButton.Location = new System.Drawing.Point(6, 19);
-            this.secondTWRPButton.Name = "secondTWRPButton";
-            this.secondTWRPButton.Size = new System.Drawing.Size(91, 23);
-            this.secondTWRPButton.TabIndex = 4;
-            this.secondTWRPButton.Text = "TWRP";
-            this.secondTWRPButton.UseSelectable = true;
-            this.secondTWRPButton.Click += new System.EventHandler(this.secondTWRPButton_Click);
-            // 
-            // thirdTWRPButton
-            // 
-            this.thirdTWRPButton.Enabled = false;
-            this.thirdTWRPButton.Location = new System.Drawing.Point(6, 48);
-            this.thirdTWRPButton.Name = "thirdTWRPButton";
-            this.thirdTWRPButton.Size = new System.Drawing.Size(91, 23);
-            this.thirdTWRPButton.TabIndex = 5;
-            this.thirdTWRPButton.Text = "CWM";
-            this.thirdTWRPButton.UseSelectable = true;
-            this.thirdTWRPButton.Click += new System.EventHandler(this.thirdTWRPButton_Click);
-            // 
-            // firstRecoveriesGroupBox
-            // 
-            this.firstRecoveriesGroupBox.Controls.Add(this.firstTWRPButton);
-            this.firstRecoveriesGroupBox.Location = new System.Drawing.Point(6, 19);
-            this.firstRecoveriesGroupBox.Name = "firstRecoveriesGroupBox";
-            this.firstRecoveriesGroupBox.Size = new System.Drawing.Size(103, 48);
-            this.firstRecoveriesGroupBox.TabIndex = 1;
-            this.firstRecoveriesGroupBox.TabStop = false;
-            this.firstRecoveriesGroupBox.Text = "Option One";
-            // 
-            // firstTWRPButton
-            // 
-            this.firstTWRPButton.Enabled = false;
-            this.firstTWRPButton.Location = new System.Drawing.Point(6, 19);
-            this.firstTWRPButton.Name = "firstTWRPButton";
-            this.firstTWRPButton.Size = new System.Drawing.Size(91, 23);
-            this.firstTWRPButton.TabIndex = 4;
-            this.firstTWRPButton.Text = "TWRP";
-            this.firstTWRPButton.UseSelectable = true;
-            this.firstTWRPButton.Click += new System.EventHandler(this.firstTWRPButton_Click);
             // 
             // unlockBootloaderGroupBox
             // 
@@ -956,12 +897,12 @@
             // mainTabControl
             // 
             this.mainTabControl.Controls.Add(this.setupTabPage);
+            this.mainTabControl.Controls.Add(this.aboutTabPage);
             this.mainTabControl.Controls.Add(this.adbTabPage);
             this.mainTabControl.Controls.Add(this.fastbootTabPage);
-            this.mainTabControl.Controls.Add(this.aboutTabPage);
             this.mainTabControl.Location = new System.Drawing.Point(23, 63);
             this.mainTabControl.Name = "mainTabControl";
-            this.mainTabControl.SelectedIndex = 3;
+            this.mainTabControl.SelectedIndex = 0;
             this.mainTabControl.Size = new System.Drawing.Size(355, 207);
             this.mainTabControl.TabIndex = 1;
             this.mainTabControl.UseSelectable = true;
@@ -1114,6 +1055,28 @@
             this.getFastbootInfo.WorkerSupportsCancellation = true;
             this.getFastbootInfo.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getFastbootInfo_DoWork);
             // 
+            // recoveryList
+            // 
+            this.recoveryList.Location = new System.Drawing.Point(6, 19);
+            this.recoveryList.MultiSelect = false;
+            this.recoveryList.Name = "recoveryList";
+            this.recoveryList.Size = new System.Drawing.Size(103, 106);
+            this.recoveryList.TabIndex = 0;
+            this.recoveryList.UseCompatibleStateImageBehavior = false;
+            this.recoveryList.View = System.Windows.Forms.View.List;
+            this.recoveryList.SelectedIndexChanged += new System.EventHandler(this.recoveryList_SelectedIndexChanged);
+            // 
+            // flashRecoveryButton
+            // 
+            this.flashRecoveryButton.Enabled = false;
+            this.flashRecoveryButton.Location = new System.Drawing.Point(6, 131);
+            this.flashRecoveryButton.Name = "flashRecoveryButton";
+            this.flashRecoveryButton.Size = new System.Drawing.Size(103, 23);
+            this.flashRecoveryButton.TabIndex = 6;
+            this.flashRecoveryButton.Text = "Flash Recovery";
+            this.flashRecoveryButton.UseSelectable = true;
+            this.flashRecoveryButton.Click += new System.EventHandler(this.flashRecoveryButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1161,8 +1124,6 @@
             this.flashGroupBox.ResumeLayout(false);
             this.gainRootGroupBox.ResumeLayout(false);
             this.flashRecoveryGroupBox.ResumeLayout(false);
-            this.secondRecoveriesGroupBox.ResumeLayout(false);
-            this.firstRecoveriesGroupBox.ResumeLayout(false);
             this.unlockBootloaderGroupBox.ResumeLayout(false);
             this.mainTabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).EndInit();
@@ -1223,10 +1184,6 @@
         private System.Windows.Forms.GroupBox gainRootGroupBox;
         private MetroFramework.Controls.MetroButton flashSuperSUButton;
         private System.Windows.Forms.GroupBox flashRecoveryGroupBox;
-        private System.Windows.Forms.GroupBox secondRecoveriesGroupBox;
-        public MetroFramework.Controls.MetroButton secondTWRPButton;
-        private MetroFramework.Controls.MetroButton thirdTWRPButton;
-        private System.Windows.Forms.GroupBox firstRecoveriesGroupBox;
         private System.Windows.Forms.GroupBox unlockBootloaderGroupBox;
         public MetroFramework.Controls.MetroButton gainSuperCIDButton;
         private MetroFramework.Controls.MetroButton unlockBootloaderButton;
@@ -1255,13 +1212,14 @@
         private System.ComponentModel.BackgroundWorker getDmesg;
         private System.ComponentModel.BackgroundWorker getFastbootInfo;
         public MetroFramework.Controls.MetroComboBox changePhoneComboBox;
-        public MetroFramework.Controls.MetroButton firstTWRPButton;
         private System.Windows.Forms.GroupBox contactGroupBox;
         private MetroFramework.Controls.MetroButton xdaButton;
         private MetroFramework.Controls.MetroButton twitterButton;
         private MetroFramework.Controls.MetroButton emailButton;
         private System.Windows.Forms.GroupBox permanentFlashGroupBox;
         private MetroFramework.Controls.MetroButton permanentRecoveryButton;
+        public MetroFramework.Controls.MetroButton flashRecoveryButton;
+        private System.Windows.Forms.ListView recoveryList;
 
     }
 }
