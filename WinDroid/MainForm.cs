@@ -10,7 +10,6 @@ using AndroidDeviceConfig;
 using MetroFramework.Forms;
 using Microsoft.VisualBasic;
 using RegawMOD.Android;
-using WinDroid.Properties;
 
 namespace WinDroid
 {
@@ -19,6 +18,8 @@ namespace WinDroid
         private readonly List<DeviceConfig> devices = new List<DeviceConfig>();
         private AndroidController _android;
         private Device _device;
+        private DeviceConfig _deviceConfig;
+        private DeviceVersion _version;
 
         public MainForm()
         {
@@ -374,120 +375,89 @@ namespace WinDroid
 
         private void deviceRecognition_DoWork(object sender, DoWorkEventArgs e)
         {
-            
             _android = AndroidController.Instance;
             try
             {
+                string device = "";
+                string status = "";
                 _android.UpdateDeviceList();
                 if (_android.HasConnectedDevices)
                 {
                     _device = _android.GetConnectedDevice(_android.ConnectedDevices[0]);
 
-                    DeviceConfig device;
-                    DeviceVersion version;
-
-                    foreach (DeviceConfig deviceConfig in devices)
-                    {
-                        bool found = false;
-                        foreach (DeviceVersion deviceVersion in deviceConfig.Versions)
-                        {
-                            bool matching = true;
-
-                            foreach (DeviceIdentifier deviceIdentifier in deviceVersion.Identifiers)
-                            {
-                                switch (deviceIdentifier.Type)
-                                {
-                                    case IdentifierType.CodeName:
-                                        matching = _device.BuildProp.GetProp("ro.build.product") ==
-                                                   deviceIdentifier.AdditionalArgs[0];
-                                        break;
-                                    case IdentifierType.AndroidVersion:
-                                        matching = _device.BuildProp.GetProp("ro.build.version.release") ==
-                                                   deviceIdentifier.AdditionalArgs[0];
-                                        break;
-                                }
-                            }
-
-                            if (!matching) continue;
-                            device = deviceConfig;
-                            version = deviceVersion;
-                            found = true;
-                            break;
-                        }
-
-                        if (found) break;
-                    }
                     switch (_device.State.ToString())
                     {
                         case "ONLINE":
                             if (_device.BuildProp.GetProp("ro.product.model") == null)
                             {
-                                deviceLabel.Text = "Device: " + _device.SerialNumber;
-                                statusLabel.Text = @"Status: Online";
-                                statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
-                                    deviceLabel.Location.Y);
-                                statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
-                                    statusLabel.Location.Y);
-                                deviceProgressSpinner.Visible = false;
-                                statusProgressSpinner.Visible = false;
-                                refreshSpinner.Visible = false;
+                                device = _device.SerialNumber;
                             }
                             else
                             {
-                                deviceLabel.Text = "Device: " + _device.BuildProp.GetProp("ro.product.model");
-                                statusLabel.Text = @"Status: Online";
-                                statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
-                                    deviceLabel.Location.Y);
-                                statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
-                                    statusLabel.Location.Y);
-                                deviceProgressSpinner.Visible = false;
-                                statusProgressSpinner.Visible = false;
-                                refreshSpinner.Visible = false;
+                                foreach (DeviceConfig deviceConfig in devices)
+                                {
+                                    bool found = false;
+                                    foreach (DeviceVersion deviceVersion in deviceConfig.Versions)
+                                    {
+                                        bool matching = true;
+
+                                        foreach (DeviceIdentifier deviceIdentifier in deviceVersion.Identifiers)
+                                        {
+                                            switch (deviceIdentifier.Type)
+                                            {
+                                                case IdentifierType.CodeName:
+                                                    matching = _device.BuildProp.GetProp("ro.build.product") ==
+                                                               deviceIdentifier.AdditionalArgs[0];
+                                                    break;
+                                                case IdentifierType.AndroidVersion:
+                                                    matching = _device.BuildProp.GetProp("ro.build.version.release") ==
+                                                               deviceIdentifier.AdditionalArgs[0];
+                                                    break;
+                                            }
+                                        }
+
+                                        if (!matching) continue;
+                                        _deviceConfig = deviceConfig;
+                                        _version = deviceVersion;
+
+                                        found = true;
+                                        break;
+                                    }
+
+                                    if (found) break;
+                                }
+                                device = _deviceConfig != null
+                                    ? _deviceConfig.ToString()
+                                    : _device.BuildProp.GetProp("ro.build.product");
                             }
+                            status = "Online";
                             break;
 
                         case "FASTBOOT":
-                            deviceLabel.Text = "Device: " + _device.SerialNumber;
-                            statusLabel.Text = @"Status: Fastboot";
-                            statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
-                                deviceLabel.Location.Y);
-                            statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
-                                statusLabel.Location.Y);
-                            deviceProgressSpinner.Visible = false;
-                            statusProgressSpinner.Visible = false;
-                            refreshSpinner.Visible = false;
+                            device = _device.SerialNumber;
+                            status = "Fastboot";
                             break;
 
                         case "RECOVERY":
-                            deviceLabel.Text = "Device: " + _device.SerialNumber;
-                            statusLabel.Text = @"Status: Recovery";
-                            statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
-                                deviceLabel.Location.Y);
-                            statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
-                                statusLabel.Location.Y);
-                            deviceProgressSpinner.Visible = false;
-                            statusProgressSpinner.Visible = false;
-                            refreshSpinner.Visible = false;
+                            device = _device.SerialNumber;
+                            status = "Recovery";
                             break;
-
                         case "UNKNOWN":
-                            deviceLabel.Text = "Device: " + _device.SerialNumber;
-                            statusLabel.Text = @"Status: Unknown";
-                            statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
-                                deviceLabel.Location.Y);
-                            statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
-                                statusLabel.Location.Y);
-                            deviceProgressSpinner.Visible = false;
-                            statusProgressSpinner.Visible = false;
+                            device = _device.SerialNumber;
+                            status = "Unknown";
                             break;
                     }
-                    deviceProgressSpinner.Visible = false;
-                    refreshSpinner.Visible = false;
                 }
                 else
                 {
-                    deviceLabel.Text = @"Device: Not Found!";
-                    statusLabel.Text = @"Status: Not Found!";
+                    device = "Not Found!";
+                    status = "Not Found!";
+                }
+
+                statusLabel.Invoke((EventHandler) delegate
+                {
+                    statusLabel.Text = @"Status: " + status;
+                    deviceLabel.Text = @"Device: " + device;
                     statusLabel.Location = new Point(deviceLabel.Location.X + deviceLabel.Width,
                         deviceLabel.Location.Y);
                     statusProgressSpinner.Location = new Point(statusLabel.Location.X + statusLabel.Width,
@@ -495,9 +465,11 @@ namespace WinDroid
                     deviceProgressSpinner.Visible = false;
                     statusProgressSpinner.Visible = false;
                     refreshSpinner.Visible = false;
-                }
+                    reloadButton.Enabled = true;
+                });
+
+
                 _android.Dispose();
-                reloadButton.Enabled = true;
             }
             catch (Exception ex)
             {
