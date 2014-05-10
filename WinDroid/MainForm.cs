@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AndroidDeviceConfig;
+using MetroFramework.Forms;
+using Microsoft.VisualBasic;
+using RegawMOD.Android;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,10 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AndroidDeviceConfig;
-using MetroFramework.Forms;
-using Microsoft.VisualBasic;
-using RegawMOD.Android;
 using WinDroid.Properties;
 
 namespace WinDroid
@@ -411,6 +411,7 @@ namespace WinDroid
                                                     matching = _device.BuildProp.GetProp("ro.build.product") ==
                                                                deviceIdentifier.AdditionalArgs[0];
                                                     break;
+
                                                 case IdentifierType.AndroidVersion:
                                                     matching = _device.BuildProp.GetProp("ro.build.version.release") ==
                                                                deviceIdentifier.AdditionalArgs[0];
@@ -430,7 +431,7 @@ namespace WinDroid
                                 }
                                 device = _deviceConfig != null
                                     ? _deviceConfig.ToString()
-                                    : _device.BuildProp.GetProp("ro.build.product");
+                                    : _device.BuildProp.GetProp("ro.build.model");
                             }
                             status = "Online";
                             break;
@@ -444,6 +445,7 @@ namespace WinDroid
                             device = _device.SerialNumber;
                             status = "Recovery";
                             break;
+
                         case DeviceState.UNKNOWN:
                             device = _device.SerialNumber;
                             status = "Unknown";
@@ -456,7 +458,7 @@ namespace WinDroid
                     status = "Not Found!";
                 }
 
-                statusLabel.Invoke((EventHandler) delegate
+                statusLabel.Invoke((EventHandler)delegate
                 {
                     statusLabel.Text = @"Status: " + status;
                     deviceLabel.Text = @"Device: " + device;
@@ -470,7 +472,7 @@ namespace WinDroid
                     reloadButton.Enabled = true;
                 });
 
-                recoveryList.Invoke((EventHandler) delegate
+                recoveryList.Invoke((EventHandler)delegate
                 {
                     recoveryList.Items.Clear();
 
@@ -480,7 +482,6 @@ namespace WinDroid
                     }
                     recoveryList.Update();
                 });
-
 
                 _android.Dispose();
             }
@@ -1271,7 +1272,7 @@ namespace WinDroid
                 file.WriteLine(ex);
                 file.Close();
             }
-            
+
             //TODO update UI to show device specific stuff
 
             try
@@ -1483,7 +1484,7 @@ namespace WinDroid
             }
         }
 
-       private void noReturnFastbootCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void noReturnFastbootCommand_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             /*try
             {
@@ -2282,7 +2283,6 @@ namespace WinDroid
             }
         }
 
-
         private static string GetStringBetween(string source, string start, string end)
         {
             int startIndex = source.IndexOf(start, StringComparison.InvariantCulture) + start.Length;
@@ -2485,7 +2485,7 @@ namespace WinDroid
             public static string Selector = "";
         }
 
-        #endregion
+        #endregion Nested type: AndroidLib
 
         private void recoveryList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -2507,5 +2507,7 @@ namespace WinDroid
                 noReturnFastbootCommand.RunWorkerAsync();
             }
         }
+
+        //lol hi
     }
 }

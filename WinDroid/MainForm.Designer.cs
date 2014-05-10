@@ -87,6 +87,8 @@
             this.gainRootGroupBox = new System.Windows.Forms.GroupBox();
             this.flashSuperSUButton = new MetroFramework.Controls.MetroButton();
             this.flashRecoveryGroupBox = new System.Windows.Forms.GroupBox();
+            this.flashRecoveryButton = new MetroFramework.Controls.MetroButton();
+            this.recoveryList = new System.Windows.Forms.ListView();
             this.unlockBootloaderGroupBox = new System.Windows.Forms.GroupBox();
             this.gainSuperCIDButton = new MetroFramework.Controls.MetroButton();
             this.unlockBootloaderButton = new MetroFramework.Controls.MetroButton();
@@ -114,8 +116,6 @@
             this.getLogcat = new System.ComponentModel.BackgroundWorker();
             this.getDmesg = new System.ComponentModel.BackgroundWorker();
             this.getFastbootInfo = new System.ComponentModel.BackgroundWorker();
-            this.recoveryList = new System.Windows.Forms.ListView();
-            this.flashRecoveryButton = new MetroFramework.Controls.MetroButton();
             this.aboutTabPage.SuspendLayout();
             this.choosePhoneGroupBox.SuspendLayout();
             this.contactGroupBox.SuspendLayout();
@@ -535,9 +535,9 @@
             this.logsGroupBox.Controls.Add(this.dmesgButton);
             this.logsGroupBox.Controls.Add(this.logcatButton);
             this.logsGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.logsGroupBox.Location = new System.Drawing.Point(236, 88);
+            this.logsGroupBox.Location = new System.Drawing.Point(240, 88);
             this.logsGroupBox.Name = "logsGroupBox";
-            this.logsGroupBox.Size = new System.Drawing.Size(111, 77);
+            this.logsGroupBox.Size = new System.Drawing.Size(107, 77);
             this.logsGroupBox.TabIndex = 72;
             this.logsGroupBox.TabStop = false;
             this.logsGroupBox.Text = "Logs";
@@ -546,7 +546,7 @@
             // 
             this.dmesgButton.Location = new System.Drawing.Point(6, 48);
             this.dmesgButton.Name = "dmesgButton";
-            this.dmesgButton.Size = new System.Drawing.Size(99, 23);
+            this.dmesgButton.Size = new System.Drawing.Size(95, 23);
             this.dmesgButton.TabIndex = 8;
             this.dmesgButton.Text = "Dmesg";
             this.dmesgButton.UseSelectable = true;
@@ -556,7 +556,7 @@
             // 
             this.logcatButton.Location = new System.Drawing.Point(6, 19);
             this.logcatButton.Name = "logcatButton";
-            this.logcatButton.Size = new System.Drawing.Size(99, 23);
+            this.logcatButton.Size = new System.Drawing.Size(95, 23);
             this.logcatButton.TabIndex = 7;
             this.logcatButton.Text = "Logcat";
             this.logcatButton.UseSelectable = true;
@@ -568,9 +568,9 @@
             this.backupsGroupBox.Controls.Add(this.restoreButton);
             this.backupsGroupBox.Controls.Add(this.backupButton);
             this.backupsGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.backupsGroupBox.Location = new System.Drawing.Point(118, 88);
+            this.backupsGroupBox.Location = new System.Drawing.Point(127, 88);
             this.backupsGroupBox.Name = "backupsGroupBox";
-            this.backupsGroupBox.Size = new System.Drawing.Size(112, 77);
+            this.backupsGroupBox.Size = new System.Drawing.Size(107, 77);
             this.backupsGroupBox.TabIndex = 71;
             this.backupsGroupBox.TabStop = false;
             this.backupsGroupBox.Text = "Backups";
@@ -579,7 +579,7 @@
             // 
             this.restoreButton.Location = new System.Drawing.Point(6, 48);
             this.restoreButton.Name = "restoreButton";
-            this.restoreButton.Size = new System.Drawing.Size(100, 23);
+            this.restoreButton.Size = new System.Drawing.Size(95, 23);
             this.restoreButton.TabIndex = 8;
             this.restoreButton.Text = "Restore";
             this.restoreButton.UseSelectable = true;
@@ -589,7 +589,7 @@
             // 
             this.backupButton.Location = new System.Drawing.Point(6, 19);
             this.backupButton.Name = "backupButton";
-            this.backupButton.Size = new System.Drawing.Size(100, 23);
+            this.backupButton.Size = new System.Drawing.Size(95, 23);
             this.backupButton.TabIndex = 7;
             this.backupButton.Text = "Backup";
             this.backupButton.UseSelectable = true;
@@ -601,9 +601,9 @@
             this.appsGroupBox.Controls.Add(this.uninstallAppButton);
             this.appsGroupBox.Controls.Add(this.installAppButton);
             this.appsGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.appsGroupBox.Location = new System.Drawing.Point(236, 5);
+            this.appsGroupBox.Location = new System.Drawing.Point(240, 5);
             this.appsGroupBox.Name = "appsGroupBox";
-            this.appsGroupBox.Size = new System.Drawing.Size(111, 77);
+            this.appsGroupBox.Size = new System.Drawing.Size(107, 77);
             this.appsGroupBox.TabIndex = 70;
             this.appsGroupBox.TabStop = false;
             this.appsGroupBox.Text = "Apps";
@@ -612,7 +612,7 @@
             // 
             this.uninstallAppButton.Location = new System.Drawing.Point(6, 48);
             this.uninstallAppButton.Name = "uninstallAppButton";
-            this.uninstallAppButton.Size = new System.Drawing.Size(99, 23);
+            this.uninstallAppButton.Size = new System.Drawing.Size(95, 23);
             this.uninstallAppButton.TabIndex = 8;
             this.uninstallAppButton.Text = "Uninstall";
             this.uninstallAppButton.UseSelectable = true;
@@ -622,7 +622,7 @@
             // 
             this.installAppButton.Location = new System.Drawing.Point(6, 19);
             this.installAppButton.Name = "installAppButton";
-            this.installAppButton.Size = new System.Drawing.Size(99, 23);
+            this.installAppButton.Size = new System.Drawing.Size(95, 23);
             this.installAppButton.TabIndex = 7;
             this.installAppButton.Text = "Install";
             this.installAppButton.UseSelectable = true;
@@ -634,9 +634,9 @@
             this.filesGroupBox.Controls.Add(this.pullFilesButton);
             this.filesGroupBox.Controls.Add(this.pushFilesButton);
             this.filesGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.filesGroupBox.Location = new System.Drawing.Point(118, 5);
+            this.filesGroupBox.Location = new System.Drawing.Point(127, 5);
             this.filesGroupBox.Name = "filesGroupBox";
-            this.filesGroupBox.Size = new System.Drawing.Size(112, 77);
+            this.filesGroupBox.Size = new System.Drawing.Size(107, 77);
             this.filesGroupBox.TabIndex = 69;
             this.filesGroupBox.TabStop = false;
             this.filesGroupBox.Text = "Files";
@@ -645,7 +645,7 @@
             // 
             this.pullFilesButton.Location = new System.Drawing.Point(6, 48);
             this.pullFilesButton.Name = "pullFilesButton";
-            this.pullFilesButton.Size = new System.Drawing.Size(100, 23);
+            this.pullFilesButton.Size = new System.Drawing.Size(95, 23);
             this.pullFilesButton.TabIndex = 8;
             this.pullFilesButton.Text = "Pull";
             this.pullFilesButton.UseSelectable = true;
@@ -655,7 +655,7 @@
             // 
             this.pushFilesButton.Location = new System.Drawing.Point(6, 19);
             this.pushFilesButton.Name = "pushFilesButton";
-            this.pushFilesButton.Size = new System.Drawing.Size(100, 23);
+            this.pushFilesButton.Size = new System.Drawing.Size(95, 23);
             this.pushFilesButton.TabIndex = 7;
             this.pushFilesButton.Text = "Push";
             this.pushFilesButton.UseSelectable = true;
@@ -668,7 +668,7 @@
             this.sideloadROMGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sideloadROMGroupBox.Location = new System.Drawing.Point(0, 117);
             this.sideloadROMGroupBox.Name = "sideloadROMGroupBox";
-            this.sideloadROMGroupBox.Size = new System.Drawing.Size(112, 48);
+            this.sideloadROMGroupBox.Size = new System.Drawing.Size(121, 48);
             this.sideloadROMGroupBox.TabIndex = 68;
             this.sideloadROMGroupBox.TabStop = false;
             this.sideloadROMGroupBox.Text = "Sideload";
@@ -677,7 +677,7 @@
             // 
             this.sideloadROMButton.Location = new System.Drawing.Point(6, 19);
             this.sideloadROMButton.Name = "sideloadROMButton";
-            this.sideloadROMButton.Size = new System.Drawing.Size(100, 23);
+            this.sideloadROMButton.Size = new System.Drawing.Size(109, 23);
             this.sideloadROMButton.TabIndex = 5;
             this.sideloadROMButton.Text = "Sideload ROM";
             this.sideloadROMButton.UseSelectable = true;
@@ -692,7 +692,7 @@
             this.rebootADBGroupBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.rebootADBGroupBox.Location = new System.Drawing.Point(0, 5);
             this.rebootADBGroupBox.Name = "rebootADBGroupBox";
-            this.rebootADBGroupBox.Size = new System.Drawing.Size(112, 106);
+            this.rebootADBGroupBox.Size = new System.Drawing.Size(121, 106);
             this.rebootADBGroupBox.TabIndex = 67;
             this.rebootADBGroupBox.TabStop = false;
             this.rebootADBGroupBox.Text = "Reboot";
@@ -701,7 +701,7 @@
             // 
             this.rebootBootloaderButton.Location = new System.Drawing.Point(6, 77);
             this.rebootBootloaderButton.Name = "rebootBootloaderButton";
-            this.rebootBootloaderButton.Size = new System.Drawing.Size(100, 23);
+            this.rebootBootloaderButton.Size = new System.Drawing.Size(109, 23);
             this.rebootBootloaderButton.TabIndex = 6;
             this.rebootBootloaderButton.Text = "Bootloader";
             this.rebootBootloaderButton.UseSelectable = true;
@@ -711,7 +711,7 @@
             // 
             this.rebootRecoveryButton.Location = new System.Drawing.Point(6, 48);
             this.rebootRecoveryButton.Name = "rebootRecoveryButton";
-            this.rebootRecoveryButton.Size = new System.Drawing.Size(100, 23);
+            this.rebootRecoveryButton.Size = new System.Drawing.Size(109, 23);
             this.rebootRecoveryButton.TabIndex = 5;
             this.rebootRecoveryButton.Text = "Recovery";
             this.rebootRecoveryButton.UseSelectable = true;
@@ -721,7 +721,7 @@
             // 
             this.rebootButton.Location = new System.Drawing.Point(6, 19);
             this.rebootButton.Name = "rebootButton";
-            this.rebootButton.Size = new System.Drawing.Size(100, 23);
+            this.rebootButton.Size = new System.Drawing.Size(109, 23);
             this.rebootButton.TabIndex = 4;
             this.rebootButton.Text = "Reboot";
             this.rebootButton.UseSelectable = true;
@@ -849,6 +849,28 @@
             this.flashRecoveryGroupBox.TabStop = false;
             this.flashRecoveryGroupBox.Text = "2. Flash Recovery";
             // 
+            // flashRecoveryButton
+            // 
+            this.flashRecoveryButton.Enabled = false;
+            this.flashRecoveryButton.Location = new System.Drawing.Point(6, 131);
+            this.flashRecoveryButton.Name = "flashRecoveryButton";
+            this.flashRecoveryButton.Size = new System.Drawing.Size(103, 23);
+            this.flashRecoveryButton.TabIndex = 6;
+            this.flashRecoveryButton.Text = "Flash Recovery";
+            this.flashRecoveryButton.UseSelectable = true;
+            this.flashRecoveryButton.Click += new System.EventHandler(this.flashRecoveryButton_Click);
+            // 
+            // recoveryList
+            // 
+            this.recoveryList.Location = new System.Drawing.Point(6, 19);
+            this.recoveryList.MultiSelect = false;
+            this.recoveryList.Name = "recoveryList";
+            this.recoveryList.Size = new System.Drawing.Size(103, 106);
+            this.recoveryList.TabIndex = 0;
+            this.recoveryList.UseCompatibleStateImageBehavior = false;
+            this.recoveryList.View = System.Windows.Forms.View.List;
+            this.recoveryList.SelectedIndexChanged += new System.EventHandler(this.recoveryList_SelectedIndexChanged);
+            // 
             // unlockBootloaderGroupBox
             // 
             this.unlockBootloaderGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -897,9 +919,9 @@
             // mainTabControl
             // 
             this.mainTabControl.Controls.Add(this.setupTabPage);
-            this.mainTabControl.Controls.Add(this.aboutTabPage);
             this.mainTabControl.Controls.Add(this.adbTabPage);
             this.mainTabControl.Controls.Add(this.fastbootTabPage);
+            this.mainTabControl.Controls.Add(this.aboutTabPage);
             this.mainTabControl.Location = new System.Drawing.Point(23, 63);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
@@ -1054,28 +1076,6 @@
             // 
             this.getFastbootInfo.WorkerSupportsCancellation = true;
             this.getFastbootInfo.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getFastbootInfo_DoWork);
-            // 
-            // recoveryList
-            // 
-            this.recoveryList.Location = new System.Drawing.Point(6, 19);
-            this.recoveryList.MultiSelect = false;
-            this.recoveryList.Name = "recoveryList";
-            this.recoveryList.Size = new System.Drawing.Size(103, 106);
-            this.recoveryList.TabIndex = 0;
-            this.recoveryList.UseCompatibleStateImageBehavior = false;
-            this.recoveryList.View = System.Windows.Forms.View.List;
-            this.recoveryList.SelectedIndexChanged += new System.EventHandler(this.recoveryList_SelectedIndexChanged);
-            // 
-            // flashRecoveryButton
-            // 
-            this.flashRecoveryButton.Enabled = false;
-            this.flashRecoveryButton.Location = new System.Drawing.Point(6, 131);
-            this.flashRecoveryButton.Name = "flashRecoveryButton";
-            this.flashRecoveryButton.Size = new System.Drawing.Size(103, 23);
-            this.flashRecoveryButton.TabIndex = 6;
-            this.flashRecoveryButton.Text = "Flash Recovery";
-            this.flashRecoveryButton.UseSelectable = true;
-            this.flashRecoveryButton.Click += new System.EventHandler(this.flashRecoveryButton_Click);
             // 
             // MainForm
             // 
