@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AndroidDeviceConfig;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using RegawMOD.Android;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -10,10 +14,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using AndroidDeviceConfig;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using RegawMOD.Android;
 
 namespace WinDroid
 {
@@ -147,7 +147,7 @@ namespace WinDroid
                                             DeviceModel.Config = new ConfigModel(deviceConfig);
                                             DeviceModel.Version = new VersionModel(deviceVersion);
 
-                                            Log.AddLogItem(deviceConfig.ToString()+ " detected!", "DEVICE");
+                                            Log.AddLogItem(deviceConfig.ToString() + " detected!", "DEVICE");
 
                                             found = true;
                                             break;
@@ -215,7 +215,7 @@ namespace WinDroid
                 controller.SetMessage(e.BytesReceived + "B/" + e.TotalBytesToReceive + "B");
                 if (e.ProgressPercentage > progress)
                 {
-                    controller.SetProgress(e.ProgressPercentage/100.0d);
+                    controller.SetProgress(e.ProgressPercentage / 100.0d);
                     progress = e.ProgressPercentage;
                 }
             };
@@ -225,7 +225,7 @@ namespace WinDroid
 
         private void ToggleLogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ((Flyout) this.Flyouts.Items[0]).IsOpen = !((Flyout) this.Flyouts.Items[0]).IsOpen;
+            ((Flyout)this.Flyouts.Items[0]).IsOpen = !((Flyout)this.Flyouts.Items[0]).IsOpen;
         }
     }
 
@@ -253,7 +253,7 @@ namespace WinDroid
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion IMultiValueConverter Members
     }
 
     public class DeviceStateToColorConverter : IValueConverter
@@ -262,20 +262,24 @@ namespace WinDroid
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch ((DeviceState) value)
+            switch ((DeviceState)value)
             {
                 case DeviceState.ONLINE:
                     return Colors.Green;
                     break;
+
                 case DeviceState.UNKNOWN:
                     return Colors.Gray;
                     break;
+
                 case DeviceState.FASTBOOT:
                 case DeviceState.RECOVERY:
                     return Colors.Orange;
                     break;
+
                 case DeviceState.OFFLINE:
                     return Colors.Red;
+
                 default:
                     return Colors.Red;
             }
@@ -286,6 +290,6 @@ namespace WinDroid
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion IValueConverter Members
     }
 }
