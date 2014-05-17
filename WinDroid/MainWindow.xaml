@@ -4,13 +4,12 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:winDroid="clr-namespace:WinDroid"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WinDroid.MainWindow"
-                      Title="WinDroid" Loaded="MetroWindow_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MinWidth="600" MinHeight="300" d:DataContext="{d:DesignInstance {x:Type winDroid:DeviceModel}}">
+                      Title="WinDroid Universal HTC Toolkit" Loaded="MetroWindow_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MinWidth="600" MinHeight="300" d:DataContext="{d:DesignInstance {x:Type winDroid:DeviceModel}}">
     <controls:MetroWindow.Resources>
-    	<winDroid:DeviceStateToColorConverter x:Key="DeviceStateToColorConverter"/>
+    	<winDroid:DeviceStateToColorConverter x:Key="DeviceStateToColorConverter" />
         <RoutedCommand x:Key="ReloadDeviceCommand" />
 		<RoutedCommand x:Key="ToggleLogCommand" />
         <winDroid:StringConverter x:Key="stringConverter" />
-
     </controls:MetroWindow.Resources>
 	<controls:MetroWindow.WindowCommands>
 		<controls:WindowCommands>
@@ -19,7 +18,7 @@
 			</controls:WindowCommands>
 	</controls:MetroWindow.WindowCommands>
     <controls:MetroWindow.CommandBindings>
-        <CommandBinding Command="{StaticResource ReloadDeviceCommand}" Executed="ReloadDeviceCommand_Executed" CanExecute="ReloadDeviceCommand_CanExecute"/>
+        <CommandBinding Command="{StaticResource ReloadDeviceCommand}" Executed="ReloadDeviceCommand_Executed" CanExecute="ReloadDeviceCommand_CanExecute" />
 		<CommandBinding Command="{StaticResource ToggleLogCommand}" Executed="ToggleLogCommand_Executed" />
     </controls:MetroWindow.CommandBindings>
 	<controls:MetroWindow.Flyouts>
@@ -28,7 +27,6 @@
 				<StackPanel Margin="10" VerticalAlignment="Stretch">
                 <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 30, 0, 0" Height="100">
                         <TextBlock Name="logBox" Text="{Binding LogText}" VerticalAlignment="Stretch">
-                    
                     </TextBlock>
                 </ScrollViewer>
 				<Button>Save Log</Button>
@@ -38,7 +36,7 @@
 		</controls:FlyoutsControl>
 	</controls:MetroWindow.Flyouts>
 	<DockPanel>
-		<TabControl DockPanel.Dock="Top">
+		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Center">
 			<TabItem Header="Device">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -53,7 +51,7 @@
 					<StackPanel Grid.Column="0" Grid.Row="0">
 						<Label>
 							<MultiBinding Converter="{StaticResource stringConverter}">
-						<Binding Path="Config.Vendor"/>
+						<Binding Path="Config.Vendor" />
 						<Binding Path="Config.Name" />
 					</MultiBinding>
 							</Label>
@@ -67,36 +65,36 @@
 			<TabItem Header="General">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="10*"/>
-						<RowDefinition/>
+						<RowDefinition Height="10*" />
+						<RowDefinition />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition/>
-						<ColumnDefinition/>
+						<ColumnDefinition />
+						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 					<Button Content="Flash Recovery" Margin="0" Grid.Row="1" Click="Button_Click"/>
-					<Button Content="Run ActionSet" Margin="0" Grid.Row="1" Grid.Column="1"/>
+					<Button Content="Run ActionSet" Margin="0" Grid.Row="1" Grid.Column="1" />
 					<StackPanel>
-						<Label Content="Recoveries" FontWeight="Bold" FontSize="14.667" HorizontalAlignment="Center"/>
+						<Label Content="Recoveries" FontWeight="Bold" FontSize="14.667" HorizontalAlignment="Center" />
 						<ListBox ItemsSource="{Binding Version.Recoveries}" ItemTemplate="{DynamicResource RecoveryDataTemplate}" Name="recoveriesList"/>
 					</StackPanel>
 					<StackPanel Grid.Column="1">
-						<Label Content="Actions" FontWeight="Bold" FontSize="14.667" Margin="0,0,-0.001,0" HorizontalAlignment="Center"/>
-						<ListBox Margin="0" ItemsSource="{Binding Version.ActionSets}" ItemTemplate="{DynamicResource ActionSetDataTemplate}"/>
+						<Label Content="Actions" FontWeight="Bold" FontSize="14.667" Margin="0,0,-0.001,0" HorizontalAlignment="Center" />
+						<ListBox Margin="0" ItemsSource="{Binding Version.ActionSets}" ItemTemplate="{DynamicResource ActionSetDataTemplate}" />
 					</StackPanel>
 				</Grid>
 			</TabItem>
-			<TabItem Header="ADB" >
+			<TabItem Header="ADB">
 				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 			</TabItem>
-			<TabItem Header="Fastboot" >
+			<TabItem Header="Fastboot">
 				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 			</TabItem>
-			<TabItem Header="About" >
+			<TabItem Header="About">
 				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 			</TabItem>
 		</TabControl>
-		<StatusBar  DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
+		<StatusBar  DockPanel.Dock="Bottom" Height="35" VerticalAlignment="Bottom">
 			<StatusBar.ItemsPanel>
 				<ItemsPanelTemplate>
 					<Grid>
@@ -111,23 +109,23 @@
 			<StatusBarItem Grid.Column="0" HorizontalAlignment="Left">
 				<Label HorizontalAlignment="Left">
 					<MultiBinding Converter="{StaticResource stringConverter}">
-						<Binding Path="Config.Vendor"/>
+						<Binding Path="Config.Vendor" />
 						<Binding Path="Config.Name" />
 					</MultiBinding>
 				</Label>
 			</StatusBarItem>
-			<StatusBarItem Grid.Column="1" HorizontalAlignment="Center">
+			<StatusBarItem Grid.Column="1" HorizontalAlignment="Center" Margin="-197.333,0,327.667,0">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 					<Ellipse Width="9" Height="9" HorizontalAlignment="Center">
 						<Ellipse.Fill>
-							<SolidColorBrush Color="{Binding Device.State, Converter={StaticResource DeviceStateToColorConverter}}"/>
+							<SolidColorBrush Color="{Binding Device.State, Converter={StaticResource DeviceStateToColorConverter}}" />
 						</Ellipse.Fill>
 					</Ellipse>
-					<Label Content="{Binding Device.State}" HorizontalAlignment="Center"/>
+					<Label Content="{Binding Device.State}" HorizontalAlignment="Center" />
 				</StackPanel>
 			</StatusBarItem>
 			<StatusBarItem  Grid.Column="2" HorizontalAlignment="Right">
-				<Button Command="{StaticResource ReloadDeviceCommand}" Content="Reload" VerticalAlignment="Center"/>
+				<Button Command="{StaticResource ReloadDeviceCommand}" Content="Reload" VerticalAlignment="Center" />
 			</StatusBarItem>
 		</StatusBar>
 	</DockPanel>
