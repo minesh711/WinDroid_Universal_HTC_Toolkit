@@ -36,7 +36,7 @@
 		</controls:FlyoutsControl>
 	</controls:MetroWindow.Flyouts>
 	<DockPanel>
-		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Center">
+		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<TabItem Header="Device">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -114,7 +114,7 @@
 					</MultiBinding>
 				</Label>
 			</StatusBarItem>
-			<StatusBarItem Grid.Column="1" HorizontalAlignment="Center" Margin="-197.333,0,327.667,0">
+			<StatusBarItem Grid.Column="1" HorizontalAlignment="Center">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 					<Ellipse Width="9" Height="9" HorizontalAlignment="Center">
 						<Ellipse.Fill>
