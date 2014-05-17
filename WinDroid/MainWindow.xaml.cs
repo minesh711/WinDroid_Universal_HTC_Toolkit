@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using AndroidDeviceConfig;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using RegawMOD.Android;
 
@@ -23,19 +26,51 @@ namespace WinDroid
 
         private bool operationRunning;
 
+        private LogModel log = new LogModel();
+
+        public sealed class LogModel : INotifyPropertyChanged
+        {
+            private StringBuilder logBuilder = new StringBuilder();
+
+            public string LogText
+            {
+                get { return logBuilder.ToString(); }
+            }
+
+            public void AddLogItem(string text, string tag)
+            {
+                logBuilder.AppendFormat("{0}[{1}]:{2}\n", DateTime.Now.ToLongTimeString(), tag, text);
+                OnPropertyChanged("LogText");
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
+                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         private DeviceModel deviceModel = new DeviceModel();
 
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = DeviceModel;
+            logBox.DataContext = Log;
         }
 
         public DeviceModel DeviceModel
         {
             get { return deviceModel; }
             set { deviceModel = value; }
+        }
+
+        public LogModel Log
+        {
+            get { return log; }
+            set { log = value; }
         }
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -55,9 +90,8 @@ namespace WinDroid
             controller.SetCancelable(true);
             RecognizeDevice();
             controller.SetProgress(1);
-            await controller.CloseAsync();
 
-            DownloadFile("https://docs.google.com/uc?export=download&id=0Bz6ePPqAG4mgNFVvckFIUmVPQnc", "test.zip");
+            await controller.CloseAsync();
         }
 
         private void RecognizeDevice()
@@ -113,6 +147,8 @@ namespace WinDroid
                                             DeviceModel.Config = new ConfigModel(deviceConfig);
                                             DeviceModel.Version = new VersionModel(deviceVersion);
 
+                                            Log.AddLogItem(deviceConfig.ToString()+ " detected!", "DEVICE");
+
                                             found = true;
                                             break;
                                         }
@@ -136,6 +172,7 @@ namespace WinDroid
             foreach (string file in Directory.GetFiles("Data/Devices"))
             {
                 devices.Add(DeviceConfig.LoadConfig(file));
+                Log.AddLogItem("config file \"" + file + "\" loaded!", "CONFIG");
             }
         }
 
@@ -149,7 +186,11 @@ namespace WinDroid
 
             foreach (string dir in neededDirectories)
             {
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                    Log.AddLogItem(dir + " created!", "FILESYSTEM");
+                }
             }
         }
 
@@ -165,12 +206,26 @@ namespace WinDroid
 
         private async void DownloadFile(string url, string path)
         {
-            var controller = await this.ShowProgressAsync("Downloading...", "Downloading " + url + " to " + path);
+            var controller = await this.ShowProgressAsync("Downloading...", String.Empty);
+            var progress = 0;
             controller.SetCancelable(false);
             WebClient client = new WebClient();
-            client.DownloadProgressChanged += (s, e) => controller.SetProgress(e.ProgressPercentage / 100);
+            client.DownloadProgressChanged += (s, e) =>
+            {
+                controller.SetMessage(e.BytesReceived + "B/" + e.TotalBytesToReceive + "B");
+                if (e.ProgressPercentage > progress)
+                {
+                    controller.SetProgress(e.ProgressPercentage/100.0d);
+                    progress = e.ProgressPercentage;
+                }
+            };
             client.DownloadFileCompleted += (s, e) => controller.CloseAsync();
             client.DownloadFileAsync(new Uri(url), path);
+        }
+
+        private void ToggleLogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ((Flyout) this.Flyouts.Items[0]).IsOpen = !((Flyout) this.Flyouts.Items[0]).IsOpen;
         }
     }
 

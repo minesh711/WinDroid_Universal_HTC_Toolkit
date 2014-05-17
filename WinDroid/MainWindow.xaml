@@ -8,12 +8,31 @@
     <controls:MetroWindow.Resources>
     	<winDroid:DeviceStateToColorConverter x:Key="DeviceStateToColorConverter"/>
         <RoutedCommand x:Key="ReloadDeviceCommand" />
+		<RoutedCommand x:Key="ToggleLogCommand" />
         <winDroid:StringConverter x:Key="stringConverter" />
 
     </controls:MetroWindow.Resources>
+	<controls:MetroWindow.WindowCommands>
+		<controls:WindowCommands>
+			<Button Content="settings" />
+			<Button Content="log" Command="{StaticResource ToggleLogCommand}" />
+			</controls:WindowCommands>
+	</controls:MetroWindow.WindowCommands>
     <controls:MetroWindow.CommandBindings>
         <CommandBinding Command="{StaticResource ReloadDeviceCommand}" Executed="ReloadDeviceCommand_Executed" CanExecute="ReloadDeviceCommand_CanExecute"/>
+		<CommandBinding Command="{StaticResource ToggleLogCommand}" Executed="ToggleLogCommand_Executed" />
     </controls:MetroWindow.CommandBindings>
+	<controls:MetroWindow.Flyouts>
+		<controls:FlyoutsControl>
+			<controls:Flyout Header="Log" Position="Top" Height="200">
+                <ScrollViewer VerticalAlignment="Stretch" Margin="0, 30, 0, 0">
+                <TextBlock Name="logBox" Text="{Binding LogText}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    
+                </TextBlock>
+                </ScrollViewer>
+            </controls:Flyout>
+		</controls:FlyoutsControl>
+	</controls:MetroWindow.Flyouts>
 	<DockPanel>
 		<TabControl DockPanel.Dock="Top">
 			<TabItem Header="Device">
