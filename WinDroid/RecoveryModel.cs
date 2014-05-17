@@ -24,6 +24,17 @@ namespace WinDroid
             }
         }
 
+        public string DownloadUrl
+        {
+            get { return recovery.DownloadUrl; }
+            set
+            {
+                if (recovery.DownloadUrl == value) return;
+                recovery.DownloadUrl = value;
+                OnPropertyChanged();
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

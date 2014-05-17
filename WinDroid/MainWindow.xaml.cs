@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -204,28 +206,56 @@ namespace WinDroid
             e.CanExecute = !operationRunning;
         }
 
-        private async void DownloadFile(string url, string path)
+        private async Task DownloadFile(string url, string path)
         {
-            var controller = await this.ShowProgressAsync("Downloading...", String.Empty);
-            var progress = 0;
+            bool downloading = true;
+            var controller = await this.ShowProgressAsync("Downloading...", "URL:" + url +"\nDestination:" + path);
             controller.SetCancelable(false);
+
             WebClient client = new WebClient();
             client.DownloadProgressChanged += (s, e) =>
             {
                 controller.SetMessage(e.BytesReceived + "B/" + e.TotalBytesToReceive + "B");
+                double progress = 0;
                 if (e.ProgressPercentage > progress)
                 {
                     controller.SetProgress(e.ProgressPercentage/100.0d);
                     progress = e.ProgressPercentage;
                 }
             };
-            client.DownloadFileCompleted += (s, e) => controller.CloseAsync();
-            client.DownloadFileAsync(new Uri(url), path);
+            client.DownloadFileCompleted += (s, e) => { controller.CloseAsync();
+                                                          downloading = false;
+            };
+            Log.AddLogItem("Download of " + url + "started!", "DOWNLOAD");
+            await client.DownloadFileTaskAsync(new Uri(url), path);
         }
 
         private void ToggleLogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((Flyout) this.Flyouts.Items[0]).IsOpen = !((Flyout) this.Flyouts.Items[0]).IsOpen;
+        }
+
+        private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            operationRunning = true;
+            if (recoveriesList.SelectedItem != null)
+            {
+
+                if (DeviceModel.Device.State != DeviceState.FASTBOOT)
+                {
+                    DeviceModel.Device.RebootBootloader();
+                    var controller = await this.ShowInputAsync(String.Empty, "Your device will boot to bootloader now. Please click \"Ok\" when your device has booted to bootloader.");
+                }
+                    var recovery = ((RecoveryModel) recoveriesList.SelectedItem);
+                    if (!File.Exists("Data/Recoveries/" + recovery.Name + "_" + DeviceModel.GetHashCode() + ".img"))
+                    {
+                        await DownloadFile(recovery.DownloadUrl,
+                            "Data/Recoveries/" + recovery.Name + "_" + DeviceModel.GetHashCode() + ".img");
+                    }
+                    var fCommand = Fastboot.FormFastbootCommand("flash", "recovery",
+                        "Data/Recoveries/" + recovery.Name + "_" + DeviceModel.GetHashCode() + ".img");
+            }
+            operationRunning = false;
         }
     }
 

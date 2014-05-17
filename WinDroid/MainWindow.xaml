@@ -24,12 +24,16 @@
     </controls:MetroWindow.CommandBindings>
 	<controls:MetroWindow.Flyouts>
 		<controls:FlyoutsControl>
-			<controls:Flyout Header="Log" Position="Top" Height="200">
-                <ScrollViewer VerticalAlignment="Stretch" Margin="0, 30, 0, 0">
-                <TextBlock Name="logBox" Text="{Binding LogText}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<controls:Flyout Header="Log" Position="Top" Height="200" Theme="Accent">
+				<StackPanel Margin="10" VerticalAlignment="Stretch">
+                <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 30, 0, 0" Height="100">
+                        <TextBlock Name="logBox" Text="{Binding LogText}" VerticalAlignment="Stretch">
                     
-                </TextBlock>
+                    </TextBlock>
                 </ScrollViewer>
+				<Button>Save Log</Button>
+				<Button>Clear Log</Button>
+				</StackPanel>
             </controls:Flyout>
 		</controls:FlyoutsControl>
 	</controls:MetroWindow.Flyouts>
@@ -70,11 +74,11 @@
 						<ColumnDefinition/>
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
-					<Button Content="Flash Recovery" Margin="0" Grid.Row="1"/>
+					<Button Content="Flash Recovery" Margin="0" Grid.Row="1" Click="Button_Click"/>
 					<Button Content="Run ActionSet" Margin="0" Grid.Row="1" Grid.Column="1"/>
 					<StackPanel>
 						<Label Content="Recoveries" FontWeight="Bold" FontSize="14.667" HorizontalAlignment="Center"/>
-						<ListBox ItemsSource="{Binding Version.Recoveries}" ItemTemplate="{DynamicResource RecoveryDataTemplate}"/>
+						<ListBox ItemsSource="{Binding Version.Recoveries}" ItemTemplate="{DynamicResource RecoveryDataTemplate}" Name="recoveriesList"/>
 					</StackPanel>
 					<StackPanel Grid.Column="1">
 						<Label Content="Actions" FontWeight="Bold" FontSize="14.667" Margin="0,0,-0.001,0" HorizontalAlignment="Center"/>
