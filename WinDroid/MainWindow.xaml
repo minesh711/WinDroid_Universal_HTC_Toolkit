@@ -1,61 +1,111 @@
-﻿<controls:MetroWindow x:Class="WinDroid.MainWindow"
+﻿<controls:MetroWindow
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      Title="WinDroid" Loaded="MetroWindow_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MinWidth="400" MinHeight="200">
-    <Window.Resources>
+                      xmlns:winDroid="clr-namespace:WinDroid"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WinDroid.MainWindow"
+                      Title="WinDroid" Loaded="MetroWindow_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" MinWidth="600" MinHeight="300" d:DataContext="{d:DesignInstance {x:Type winDroid:DeviceModel}}">
+    <controls:MetroWindow.Resources>
+    	<winDroid:DeviceStateToColorConverter x:Key="DeviceStateToColorConverter"/>
         <RoutedCommand x:Key="ReloadDeviceCommand" />
+        <winDroid:StringConverter x:Key="stringConverter" />
 
-    </Window.Resources>
-    <Window.CommandBindings>
-        <CommandBinding Command="{StaticResource ReloadDeviceCommand}" Executed="ReloadDeviceCommand_Executed" />
-    </Window.CommandBindings>
-    <TabControl>
-        <TabItem Header="Device">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="4*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <!-- info grid -->
-                <StackPanel Grid.Column="0" Grid.Row="0">
-                    <Label Content="{Binding Path=Config.Vendor, StringFormat='Vendor: {0}'}" />
-                    <Label Content="{Binding Path=Config.Name, StringFormat='Name: {0}'}" />
-                </StackPanel>
-                <!-- battery level -->
-                <ProgressBar Value="{Binding Path=Device.Battery.Level, Mode=OneWay}" Grid.Row="1" Grid.Column="0"
-                             Grid.ColumnSpan="2" />
-                <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2">
-                	<Label Content="{Binding Device.State, Mode=OneWay}"
-                		HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                </Viewbox>
-                <!-- AndroidLib stuff -->
-                <Button Grid.Row="2" Grid.Column="1" Command="{StaticResource ReloadDeviceCommand}">Reload</Button>
-            </Grid>
-        </TabItem>
-        <TabItem Header="General">
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-            	<Grid.RowDefinitions>
-            		<RowDefinition/>
-            	</Grid.RowDefinitions>
-            	<Grid.ColumnDefinitions>
-            		<ColumnDefinition/>
-            		<ColumnDefinition Width="2*"/>
-            	</Grid.ColumnDefinitions>
-        		<StackPanel HorizontalAlignment="Left" Grid.RowSpan="2" VerticalAlignment="Top">
-        			<Label Content="Recoveries" FontWeight="Bold" FontSize="14.667"/>
-        			<ListBox ItemsSource="{Binding Path=Version.Recoveries}" ItemTemplate="{DynamicResource RecoveryDataTemplate}"/>
-        			<Button Content="Flash Recovery" Height="25"/>
-        		</StackPanel>
-        	</Grid>
-        </TabItem>
-        <TabItem Header="ADB" />
-        <TabItem Header="Fastboot" />
-        <TabItem Header="About" />
-    </TabControl>
+    </controls:MetroWindow.Resources>
+    <controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="{StaticResource ReloadDeviceCommand}" Executed="ReloadDeviceCommand_Executed" CanExecute="ReloadDeviceCommand_CanExecute"/>
+    </controls:MetroWindow.CommandBindings>
+	<DockPanel>
+		<TabControl DockPanel.Dock="Top">
+			<TabItem Header="Device">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="4*" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<!-- info grid -->
+					<StackPanel Grid.Column="0" Grid.Row="0">
+						<Label>
+							<MultiBinding Converter="{StaticResource stringConverter}">
+						<Binding Path="Config.Vendor"/>
+						<Binding Path="Config.Name" />
+					</MultiBinding>
+							</Label>
+					</StackPanel>
+					<ProgressBar Value="{Binding Device.Battery.Level, Mode=OneWay}" Grid.Row="1" Grid.Column="0"
+						Grid.ColumnSpan="2" />
+					<!-- battery level -->
+					<!-- AndroidLib stuff -->
+				</Grid>
+			</TabItem>
+			<TabItem Header="General">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="10*"/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<Button Content="Flash Recovery" Margin="0" Grid.Row="1"/>
+					<Button Content="Run ActionSet" Margin="0" Grid.Row="1" Grid.Column="1"/>
+					<StackPanel>
+						<Label Content="Recoveries" FontWeight="Bold" FontSize="14.667" HorizontalAlignment="Center"/>
+						<ListBox ItemsSource="{Binding Version.Recoveries}" ItemTemplate="{DynamicResource RecoveryDataTemplate}"/>
+					</StackPanel>
+					<StackPanel Grid.Column="1">
+						<Label Content="Actions" FontWeight="Bold" FontSize="14.667" Margin="0,0,-0.001,0" HorizontalAlignment="Center"/>
+						<ListBox Margin="0" ItemsSource="{Binding Version.ActionSets}" ItemTemplate="{DynamicResource ActionSetDataTemplate}"/>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="ADB" >
+				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+			</TabItem>
+			<TabItem Header="Fastboot" >
+				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+			</TabItem>
+			<TabItem Header="About" >
+				<Label Content="In progress." Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+			</TabItem>
+		</TabControl>
+		<StatusBar  DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
+			<StatusBar.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+					</Grid>
+				</ItemsPanelTemplate>
+			</StatusBar.ItemsPanel>
+			<StatusBarItem Grid.Column="0" HorizontalAlignment="Left">
+				<Label HorizontalAlignment="Left">
+					<MultiBinding Converter="{StaticResource stringConverter}">
+						<Binding Path="Config.Vendor"/>
+						<Binding Path="Config.Name" />
+					</MultiBinding>
+				</Label>
+			</StatusBarItem>
+			<StatusBarItem Grid.Column="1" HorizontalAlignment="Center">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+					<Ellipse Width="9" Height="9" HorizontalAlignment="Center">
+						<Ellipse.Fill>
+							<SolidColorBrush Color="{Binding Device.State, Converter={StaticResource DeviceStateToColorConverter}}"/>
+						</Ellipse.Fill>
+					</Ellipse>
+					<Label Content="{Binding Device.State}" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</StatusBarItem>
+			<StatusBarItem  Grid.Column="2" HorizontalAlignment="Right">
+				<Button Command="{StaticResource ReloadDeviceCommand}" Content="Reload" VerticalAlignment="Center"/>
+			</StatusBarItem>
+		</StatusBar>
+	</DockPanel>
 </controls:MetroWindow>

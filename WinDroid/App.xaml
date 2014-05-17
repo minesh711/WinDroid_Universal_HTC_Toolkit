@@ -15,6 +15,9 @@
         	<DataTemplate x:Key="RecoveryDataTemplate">
         		<TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
         	</DataTemplate>
+        	<DataTemplate x:Key="ActionSetDataTemplate">
+        		<TextBlock TextWrapping="Wrap" Text="{Binding Description}"/>
+        	</DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
