@@ -1,14 +1,10 @@
-﻿using AndroidDeviceConfig;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using RegawMOD.Android;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,45 +12,26 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using AndroidDeviceConfig;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using RegawMOD.Android;
+using WinDroid;
 
-namespace WinDroid
+namespace WinDroid_Universal_HTC_Toolkit
 {
     /// <summary>
     ///     Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : MetroWindow
     {
-        private readonly List<DeviceConfig> devices = new List<DeviceConfig>();
+        private readonly List<DeviceConfig> _Devices = new List<DeviceConfig>();
 
-        private bool operationRunning;
+        private bool _OperationRunning;
 
-        private LogModel log = new LogModel();
+        private LogModel _Log = new LogModel();
 
-        public sealed class LogModel : INotifyPropertyChanged
-        {
-            private StringBuilder logBuilder = new StringBuilder();
-
-            public string LogText
-            {
-                get { return logBuilder.ToString(); }
-            }
-
-            public void AddLogItem(string text, string tag)
-            {
-                logBuilder.AppendFormat("{0}[{1}]:{2}\n", DateTime.Now.ToLongTimeString(), tag, text);
-                OnPropertyChanged("LogText");
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-            {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private DeviceModel deviceModel = new DeviceModel();
+        private DeviceModel _DeviceModel = new DeviceModel();
 
         public MainWindow()
         {
@@ -65,14 +42,14 @@ namespace WinDroid
 
         public DeviceModel DeviceModel
         {
-            get { return deviceModel; }
-            set { deviceModel = value; }
+            get { return _DeviceModel; }
+            set { _DeviceModel = value; }
         }
 
         public LogModel Log
         {
-            get { return log; }
-            set { log = value; }
+            get { return _Log; }
+            set { _Log = value; }
         }
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
@@ -80,25 +57,39 @@ namespace WinDroid
             ProgressDialogController controller = await this.ShowProgressAsync("Please wait...", String.Empty);
             controller.SetCancelable(false);
 
+            controller.SetMessage("Initializing...");
+            LogBaseSystemInfos();
+            controller.SetProgress(0.16);
+
             controller.SetMessage("Preparing file system...");
             PrepareFileSystem();
             controller.SetProgress(0.3);
 
             controller.SetMessage("Loading device configs...");
-            LoadDeviceConfig();
+            await LoadDeviceConfig();
             controller.SetProgress(0.6);
 
             controller.SetMessage("Searching your device...");
             controller.SetCancelable(true);
-            RecognizeDevice();
+            await RecognizeDevice();
             controller.SetProgress(1);
 
             await controller.CloseAsync();
         }
 
-        private void RecognizeDevice()
+        private void LogBaseSystemInfos()
         {
-            operationRunning = true;
+            Log.AddLogItem(Environment.OSVersion.ToString() + " " + (Environment.Is64BitOperatingSystem ? "64Bit" : "32bit"), "INFO");
+            Log.AddLogItem(Assembly.GetExecutingAssembly().GetName().Name + " " + Assembly.GetExecutingAssembly().GetName().Version, "INFO");
+            foreach (AssemblyName referencedAssembly in Assembly.GetExecutingAssembly().GetReferencedAssemblies())
+            { 
+                Log.AddLogItem(referencedAssembly.Name + " " + referencedAssembly.Version, "INFO");
+            }
+        }
+
+        private async Task RecognizeDevice()
+        {
+            _OperationRunning = true;
             AndroidController android = AndroidController.Instance;
             try
             {
@@ -119,7 +110,7 @@ namespace WinDroid
                                 }
                                 else
                                 {
-                                    foreach (DeviceConfig deviceConfig in devices)
+                                    foreach (DeviceConfig deviceConfig in _Devices)
                                     {
                                         bool found = false;
                                         foreach (DeviceVersion deviceVersion in deviceConfig.Versions)
@@ -149,7 +140,7 @@ namespace WinDroid
                                             DeviceModel.Config = new ConfigModel(deviceConfig);
                                             DeviceModel.Version = new VersionModel(deviceVersion);
 
-                                            Log.AddLogItem(deviceConfig.ToString() + " detected!", "DEVICE");
+                                            Log.AddLogItem(deviceConfig.Vendor + " " + deviceConfig.Name + " detected!", "DEVICE");
 
                                             found = true;
                                             break;
@@ -166,14 +157,14 @@ namespace WinDroid
             catch
             {
             }
-            operationRunning = false;
+            _OperationRunning = false;
         }
 
-        private void LoadDeviceConfig()
+        private async Task LoadDeviceConfig()
         {
             foreach (string file in Directory.GetFiles("Data/Devices"))
             {
-                devices.Add(DeviceConfig.LoadConfig(file));
+                _Devices.Add(DeviceConfig.LoadConfig(file));
                 Log.AddLogItem("config file \"" + file + "\" loaded!", "CONFIG");
             }
         }
@@ -203,7 +194,7 @@ namespace WinDroid
 
         private void ReloadDeviceCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = !operationRunning;
+            e.CanExecute = !_OperationRunning;
         }
 
         private async Task DownloadFile(string url, string path)
@@ -237,7 +228,7 @@ namespace WinDroid
 
         private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            operationRunning = true;
+            _OperationRunning = true;
             if (recoveriesList.SelectedItem != null)
             {
 
@@ -254,8 +245,9 @@ namespace WinDroid
                     }
                     var fCommand = Fastboot.FormFastbootCommand("flash", "recovery",
                         "Data/Recoveries/" + recovery.Name + "_" + DeviceModel.GetHashCode() + ".img");
+                Fastboot.ExecuteFastbootCommand(fCommand);
             }
-            operationRunning = false;
+            _OperationRunning = false;
         }
     }
 
@@ -321,5 +313,19 @@ namespace WinDroid
         }
 
         #endregion IValueConverter Members
+    }
+
+    public class BooleanToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Color[] parameters = (Color[]) parameter;
+            return ((bool) value) ? parameters[0] : parameters[1];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
